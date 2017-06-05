@@ -13,7 +13,7 @@ import com.evrythng.android.sdk.camera.detector.ScanManager;
 import com.evrythng.android.sdk.camera.ui.ScannerActivity;
 import com.evrythng.android.sdk.model.Constants;
 import com.evrythng.android.sdk.model.IntentResult;
-import com.evrythng.android.sdk.wrapper.client.service.ApiClient;
+import com.evrythng.android.sdk.wrapper.client.service.EVTApiClient;
 import com.evrythng.android.sdk.wrapper.core.api.ServiceGenerator;
 import com.evrythng.android.sdk.wrapper.core.APIError;
 import com.evrythng.android.sdk.wrapper.core.APIException;
@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.List;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 
@@ -42,14 +43,10 @@ public class ScanService extends BaseService<ScanService> {
     private final ServiceGenerator manager;
     private String filter;
     private ScanMethod[] scanMethod;
-    private int scanOption = 0;
-    private int USE_CAMERA = 1;
-    private int USE_PHOTO = 2;
-    private int USE_IDENTIFY = 4;
-    private Bitmap bitmap;
     private String barCode;
     private ServiceCallback<List<ScanResponse>> callback;
-    public ScanService(ApiClient client) {
+
+    public ScanService(EVTApiClient client) {
         super(client);
         manager = new ServiceGenerator(this);
     }
@@ -105,7 +102,6 @@ public class ScanService extends BaseService<ScanService> {
     }
 
     public ScanService useIdentify(String barCode) {
-        scanOption = USE_IDENTIFY;
         this.barCode = barCode;
         return this;
     }
@@ -127,10 +123,10 @@ public class ScanService extends BaseService<ScanService> {
     }
 
     public void execute(ServiceCallback<List<ScanResponse>> callback) {
-        this.callback = callback;
+        RequestCallback requestCallback = new RequestCallback(manager, callback);
         ApiService apiService = manager.createService();
         filter = generateFilter();
-        apiService.identify(filter).enqueue(mRequestCallback);
+        apiService.identify(filter).enqueue(requestCallback);
     }
 
     private String generateFilter() {
@@ -150,24 +146,6 @@ public class ScanService extends BaseService<ScanService> {
             filter += String.format(filter.length() == 0 ? "value=%s" : "&value=%s", barCode);
         return filter;
     }
-
-    private retrofit2.Callback<List<ScanResponse>> mRequestCallback = new retrofit2.Callback<List<ScanResponse>>() {
-        @Override
-        public void onResponse(Call<List<ScanResponse>> call, Response<List<ScanResponse>> response) {
-            if(response.isSuccessful()) {
-                List<ScanResponse> requestResult = response.body();
-                if(callback != null) callback.onResponse(requestResult);
-            } else {
-                APIError error = ErrorUtil.parseError(manager, response);
-                if(callback != null) callback.onFailure(error);
-            }
-        }
-
-        @Override
-        public void onFailure(Call<List<ScanResponse>> call, Throwable t) {
-            if(callback != null) callback.onFailure(ErrorUtil.parseException(t));
-        }
-    };
 
     public static IntentResult parseScannerResponse(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_SCAN && resultCode == Activity.RESULT_OK) {

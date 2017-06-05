@@ -25,4 +25,7 @@ public interface ApiService {
 
     @POST("/auth/evrythng/users?anonymous=true")
     Call<User> createAnonymousUser(@Body Credentials anonymous);
+
+    @POST("/auth/evrythng")
+    Call<User> loginUser(@Body Credentials credentials);
 }

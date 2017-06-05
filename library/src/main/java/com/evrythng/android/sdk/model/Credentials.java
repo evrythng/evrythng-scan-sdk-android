@@ -38,6 +38,6 @@ public class Credentials {
     }
 
     public void setAnonymous(boolean anonymous) {
-        this.anonymous = anonymous;
+        this.anonymous = Boolean.valueOf(anonymous);
     }
 }

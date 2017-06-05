@@ -57,7 +57,7 @@ public class ServiceGenerator {
             throw new IllegalStateException("ServiceGenerator: Service should not be null");
 
         if(baseService.getClient() == null)
-            throw new IllegalStateException("ServiceGenerator: ApiClient should not be null");
+            throw new IllegalStateException("ServiceGenerator: EVTApiClient should not be null");
     }
 
     public Retrofit getRetrofit() {

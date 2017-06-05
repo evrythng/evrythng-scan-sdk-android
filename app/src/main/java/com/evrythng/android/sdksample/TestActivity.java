@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.evrythng.android.sdk.model.IntentResult;
 import com.evrythng.android.sdk.model.User;
-import com.evrythng.android.sdk.wrapper.client.service.ApiClient;
+import com.evrythng.android.sdk.wrapper.client.service.EVTApiClient;
 import com.evrythng.android.sdk.wrapper.client.service.interfaces.ServiceCallback;
 import com.evrythng.android.sdk.wrapper.client.service.scan.ScanResponse;
 import com.evrythng.android.sdk.wrapper.core.APIError;
@@ -19,13 +19,13 @@ import java.util.List;
 public class TestActivity extends AppCompatActivity {
 
     private static final String TAG = TestActivity.class.getSimpleName();
-    private ApiClient client;
+    private EVTApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        client = new ApiClient("J3FW1rGQ7kviN5F03lhd9bosChnmIO2wz8ECizqKTvrliaiTBTfus2XzpPMDhxchQN2iqxRvMJYzSTX9");
+        client = new EVTApiClient("J3FW1rGQ7kviN5F03lhd9bosChnmIO2wz8ECizqKTvrliaiTBTfus2XzpPMDhxchQN2iqxRvMJYzSTX9");
 
         findViewById(R.id.btn_scan).setOnClickListener(new View.OnClickListener() {
             @Override

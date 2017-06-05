@@ -12,15 +12,15 @@ import com.evrythng.android.sdk.wrapper.client.service.scan.ScanService;
  * Created by phillipcui on 5/26/17.
  */
 
-public class ApiClient {
+public class EVTApiClient {
 
     private final ApiConfiguration config;
 
-    public ApiClient(String apiKey) {
+    public EVTApiClient(String apiKey) {
         this(new ApiConfiguration(apiKey));
     }
 
-    ApiClient(@NonNull ApiConfiguration config) {
+    EVTApiClient(@NonNull ApiConfiguration config) {
         checkApiConfig(config);
         this.config = config;
     }
