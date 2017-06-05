@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.evrythng.android.sdk">
+
+    <application android:allowBackup="true" android:label="@string/app_name"
+        android:supportsRtl="true">
+        <activity android:name=".camera.ui.ScannerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CameraTheme" />
+        <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="barcode,ocr" />
+    </application>
+</manifest>
