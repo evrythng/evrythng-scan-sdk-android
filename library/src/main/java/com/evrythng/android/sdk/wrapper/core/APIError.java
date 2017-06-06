@@ -1,6 +1,7 @@
 package com.evrythng.android.sdk.wrapper.core;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class APIError {
     @Expose
     private int code;
 
+    @SerializedName("moreInfo")
     @Expose
     private String moreInfo;
 

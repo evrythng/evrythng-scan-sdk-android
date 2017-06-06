@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_userId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User ID: "
+        android:layout_margin="8dp" />
+
+    <TextView
+        android:id="@+id/tv_userKey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Key: "
+        android:layout_below="@id/tv_userId"
+        android:layout_margin="8dp" />
+
+
+    <TextView
+        android:id="@+id/tv_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Emai: "
+        android:layout_below="@id/tv_userKey"
+        android:layout_margin="8dp" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status: "
+        android:layout_below="@id/tv_email"
+        android:layout_margin="8dp" />
+
+    <TextView
+        android:id="@+id/tv_social_network"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Social Network: "
+        android:layout_below="@id/tv_status"
+        android:layout_margin="8dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_social_network"
+        android:orientation="vertical"
+        android:layout_margin="8dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/darker_gray"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_results"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Results: "
+                android:textColor="#000000"
+                android:layout_margin="8dp" />
+        </ScrollView>
+
+        <Button
+            android:id="@+id/btn_scan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SCAN"
+            android:layout_weight="0"
+            android:layout_margin="8dp"/>
+    </LinearLayout>
+</RelativeLayout>

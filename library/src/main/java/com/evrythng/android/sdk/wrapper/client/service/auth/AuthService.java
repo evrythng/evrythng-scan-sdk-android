@@ -5,6 +5,7 @@ import com.evrythng.android.sdk.model.User;
 import com.evrythng.android.sdk.wrapper.client.service.EVTApiClient;
 import com.evrythng.android.sdk.wrapper.client.service.interfaces.ServiceCallback;
 import com.evrythng.android.sdk.wrapper.client.service.scan.ScanResponse;
+import com.evrythng.android.sdk.wrapper.client.service.scan.ScanService;
 import com.evrythng.android.sdk.wrapper.core.APIError;
 import com.evrythng.android.sdk.wrapper.core.APIException;
 import com.evrythng.android.sdk.wrapper.core.api.ApiService;
@@ -30,6 +31,9 @@ public class AuthService extends BaseService<AuthService> {
     private boolean anonymousUser;
     private ServiceCallback<User> callback;
     private String email, password;
+    private User user;
+    private boolean createUser;
+    private boolean activateUser;
 
     public AuthService(EVTApiClient client) {
         super(client);
@@ -43,7 +47,21 @@ public class AuthService extends BaseService<AuthService> {
         return this;
     }
 
-    public AuthService loginUser(String email , String password)  {
+    public AuthService createUser(User user) {
+        this.user = user;
+        createUser = true;
+        return this;
+    }
+
+    public AuthService validateUser(String userID, String activationCode) {
+        activateUser = true;
+        this.user = new User();
+        user.setUserId(userID);
+        user.setActivationCode(activationCode);
+        return this;
+    }
+
+    public AuthService useCredentials(String email , String password)  {
         this.email = email;
         this.password = password;
         return this;
@@ -57,6 +75,12 @@ public class AuthService extends BaseService<AuthService> {
         if(anonymousUser) {
             creds.setAnonymous(anonymousUser);
             service.createAnonymousUser(creds).enqueue(requestCallback);
+        }
+        else if(createUser) {
+            service.createUser(user).enqueue(requestCallback);
+        }
+        else if(activateUser) {
+            service.validateUser(user.getUserId(), user).enqueue(requestCallback);
         }
         else {
             creds.setEmail(email);
@@ -73,6 +97,9 @@ public class AuthService extends BaseService<AuthService> {
             if(anonymousUser) {
                 creds.setAnonymous(anonymousUser);
                 response = service.createAnonymousUser(creds).execute();
+            }
+            else if(createUser) {
+                response = service.createUser(user).execute();
             }
             else {
                 creds.setEmail(email);

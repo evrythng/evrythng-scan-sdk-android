@@ -27,7 +27,6 @@ public class GsonModule {
 
         gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
     }
 

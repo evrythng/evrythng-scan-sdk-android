@@ -23,8 +23,24 @@ public class User {
     @Expose
     private String status;
 
+    @SerializedName("socialNetwork")
     @Expose
     private String socialNetwork;
+
+    @Expose
+    private String password;
+
+    @SerializedName("firstName")
+    @Expose
+    private String firstName;
+
+    @SerializedName("lastName")
+    @Expose
+    private String lastName;
+
+    @SerializedName("activationCode")
+    @Expose
+    private String activationCode;
 
     public String getUserId() {
         return userId;
@@ -69,5 +85,37 @@ public class User {
     @Override
     public String toString() {
         return String.format("%s %s %s %s", userId, apiKey, email, status);
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 }
