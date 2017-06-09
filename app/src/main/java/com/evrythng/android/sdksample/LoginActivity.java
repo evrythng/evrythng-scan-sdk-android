@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     errors += error + "\n";
                 }
                 if(!TextUtils.isEmpty(errors)) {
-                    message = String.format("%s (code: %s)",errors, e.getCode());
+                    message = String.format("%s",errors);
                 }
             }
 

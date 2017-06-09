@@ -122,7 +122,7 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
                 errors += error + "\n";
             }
             if(!TextUtils.isEmpty(errors)) {
-                message = String.format("%s (code: %s)",errors, e.getCode());
+                message = String.format("%s",errors);
             }
         }
 

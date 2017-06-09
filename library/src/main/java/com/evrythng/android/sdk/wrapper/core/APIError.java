@@ -26,9 +26,6 @@ public class APIError {
     @Expose
     private List<String> errors;
 
-    @Expose
-    private int code;
-
     @SerializedName("moreInfo")
     @Expose
     private String moreInfo;
@@ -47,14 +44,6 @@ public class APIError {
 
     public void setErrors(List<String> errors) {
         this.errors = errors;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
     }
 
     public String getMoreInfo() {
