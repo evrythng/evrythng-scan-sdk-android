@@ -1,4 +1,4 @@
-package com.evrythng.android.sdk.wrapper.client.service;
+package com.evrythng.android.sdk.wrapper.client;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -49,7 +49,7 @@ public class EVTApiClient {
         return new ScanService(this);
     }
 
-    public AuthService login() {
+    public AuthService auth() {
         return new AuthService(this);
     }
 }

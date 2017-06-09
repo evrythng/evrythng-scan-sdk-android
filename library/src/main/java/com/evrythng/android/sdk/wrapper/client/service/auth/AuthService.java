@@ -2,11 +2,8 @@ package com.evrythng.android.sdk.wrapper.client.service.auth;
 
 import com.evrythng.android.sdk.model.Credentials;
 import com.evrythng.android.sdk.model.User;
-import com.evrythng.android.sdk.wrapper.client.service.EVTApiClient;
+import com.evrythng.android.sdk.wrapper.client.EVTApiClient;
 import com.evrythng.android.sdk.wrapper.client.service.interfaces.ServiceCallback;
-import com.evrythng.android.sdk.wrapper.client.service.scan.ScanResponse;
-import com.evrythng.android.sdk.wrapper.client.service.scan.ScanService;
-import com.evrythng.android.sdk.wrapper.core.APIError;
 import com.evrythng.android.sdk.wrapper.core.APIException;
 import com.evrythng.android.sdk.wrapper.core.api.ApiService;
 import com.evrythng.android.sdk.wrapper.core.api.ServiceGenerator;
@@ -15,10 +12,7 @@ import com.evrythng.android.sdk.wrapper.util.ErrorUtil;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
-import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 /**

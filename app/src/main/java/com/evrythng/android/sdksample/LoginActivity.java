@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.evrythng.android.sdk.model.User;
-import com.evrythng.android.sdk.wrapper.client.service.EVTApiClient;
+import com.evrythng.android.sdk.wrapper.client.EVTApiClient;
 import com.evrythng.android.sdk.wrapper.client.service.interfaces.ServiceCallback;
 import com.evrythng.android.sdk.wrapper.core.APIError;
 
@@ -65,14 +65,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void doAnonLogin() {
         progressDialog = ProgressDialog.show(this, "Logging in to EVT", "Logging in as an anonymous user");
-        client.login().createAnonymousUser().execute(mServiceCallback);
+        client.auth().createAnonymousUser().execute(mServiceCallback);
     }
 
     private void doLogin() {
         String email = etEmail.getEditText().getText().toString();
         String password = etPassword.getEditText().getText().toString();
         progressDialog = ProgressDialog.show(this, "Logging in to EVT", "Logging in as " + email);
-        client.login().useCredentials(email, password).execute(mServiceCallback);
+        client.auth().useCredentials(email, password).execute(mServiceCallback);
     }
 
     private ServiceCallback<User> mServiceCallback = new ServiceCallback<User>() {

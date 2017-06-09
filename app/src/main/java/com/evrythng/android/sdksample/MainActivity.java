@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -13,10 +12,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.evrythng.android.sdk.model.IntentResult;
-import com.evrythng.android.sdk.wrapper.client.service.EVTApiClient;
+import com.evrythng.android.sdk.wrapper.client.EVTApiClient;
 import com.evrythng.android.sdk.wrapper.client.service.interfaces.ServiceCallback;
 import com.evrythng.android.sdk.wrapper.client.service.scan.ScanResponse;
 import com.evrythng.android.sdk.wrapper.core.APIError;
+import com.evrythng.android.sdk.wrapper.core.api.GsonModule;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -73,8 +74,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult intentResult = evtClient.scan().parseScannerResponse(requestCode, resultCode, data);
-        progressDialog = ProgressDialog.show(this, "Identifying product", "Checking item on EVT Platform. Please wait...");
-        evtClient.scan().useIntentResult(intentResult).execute(mServiceCallback);
+        if(intentResult != null) {
+            progressDialog = ProgressDialog.show(this, "Identifying product", "Checking item on EVT Platform. Please wait...");
+            evtClient.scan().useIntentResult(intentResult).execute(mServiceCallback);
+        }
     }
 
 
@@ -82,6 +85,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onResponse(List<ScanResponse> response) {
             progressDialog.dismiss();
+            if(response != null && !response.isEmpty()) {
+                Gson gson = GsonModule.getInstance().getGson();
+                String responseString = gson.toJson(response.get(0), ScanResponse.class);
+                tvResults.setText("Result: " + responseString);
+
+            }
         }
 
         @Override

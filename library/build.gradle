@@ -33,3 +33,31 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     testCompile 'junit:junit:4.12'
 }
+
+ext {
+    bintrayRepo = 'evt-mobile-sdk-test'
+    bintrayName = 'evt-android-sdk-test'
+    bintrayOrg = 'imfreeincmobiledev'
+
+    publishedGroupId = 'com.evrythng.android.sdk'
+    libraryName = 'library'
+    artifact = 'library'
+
+    libraryDescription = 'EVT Android SDK'
+
+    siteUrl = 'https://evrythng.com/'
+    gitUrl = 'https://github.com/evrythng/android-sdk.git'
+
+    libraryVersion = '0.0.1'
+
+    developerId = 'imfree-pelep'
+    developerName = 'Ronald Phillip Cui'
+    developerEmail = 'pelep@imfreemobile.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+apply from: 'https://raw.githubusercontent.com/imfree-pelep/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/imfree-pelep/JCenter/master/bintrayv1.gradle'

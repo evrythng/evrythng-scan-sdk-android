@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.evrythng.android.sdk.model.User;
-import com.evrythng.android.sdk.wrapper.client.service.EVTApiClient;
+import com.evrythng.android.sdk.wrapper.client.EVTApiClient;
 import com.evrythng.android.sdk.wrapper.client.service.interfaces.ServiceCallback;
 import com.evrythng.android.sdk.wrapper.core.APIError;
 
@@ -59,7 +59,7 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
         user.setFirstName(firstName);
         user.setLastName(lastName);
         progressDialog = ProgressDialog.show(this, "Creating user", "Sending details to EVT Server");
-        evtClient.login().createUser(user).execute(mCreateUserCallback);
+        evtClient.auth().createUser(user).execute(mCreateUserCallback);
 
     }
 
@@ -68,7 +68,7 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
         public void onResponse(User user) {
             progressDialog.dismiss();
             progressDialog = ProgressDialog.show(CreateUserActivity.this, "Creating user", "Sending details to EVT Server");
-            evtClient.login().validateUser(user.getUserId(), user.getActivationCode()).execute(mActivateUserCallback);
+            evtClient.auth().validateUser(user.getUserId(), user.getActivationCode()).execute(mActivateUserCallback);
         }
 
         @Override
@@ -86,7 +86,7 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
             progressDialog.dismiss();
             AlertDialog.Builder builder = new AlertDialog.Builder(CreateUserActivity.this);
             builder.setTitle("Request was successful");
-            builder.setMessage("You have successfully created a user. Click Login to proceed to the login screen");
+            builder.setMessage("You have successfully created a user. Click Login to proceed to the auth screen");
             builder.setPositiveButton("Login", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

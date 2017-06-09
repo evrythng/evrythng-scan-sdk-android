@@ -2,6 +2,7 @@ package com.evrythng.android.sdk.wrapper.client.service;
 
 import android.support.annotation.NonNull;
 
+import com.evrythng.android.sdk.wrapper.client.EVTApiClient;
 import com.evrythng.android.sdk.wrapper.client.service.interfaces.ServiceCallback;
 import com.evrythng.android.sdk.wrapper.core.APIError;
 import com.evrythng.android.sdk.wrapper.core.api.ServiceGenerator;
