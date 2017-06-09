@@ -23,10 +23,6 @@ public class APIException extends IllegalStateException {
         return error.getErrors();
     }
 
-    public int getCode() {
-        return error.getCode();
-    }
-
     public int getStatus() {
         return error.getStatus();
     }
