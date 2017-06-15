@@ -115,17 +115,4 @@ public class ErrorUtilTest {
         Assert.assertNull(error.getMoreInfo());
     }
 
-    @Test
-    public void ErrorUtil_apiError_invalidAPIConfig() {
-        ApiConfiguration config = new ApiConfiguration("API_KEY", "htpp:/a/asd");
-        EVTApiClient client = new EVTApiClient(config);
-        BaseService service = new BaseService(client) {
-            @Override
-            public EVTApiClient getClient() {
-                return super.getClient();
-            }
-        };
-        ServiceGenerator serviceGenerator = new ServiceGenerator(service);
-
-    }
 }

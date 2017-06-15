@@ -1,7 +1,9 @@
 package com.evrythng.android.sdksample;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import com.evrythng.android.sdk.wrapper.core.APIError;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final String MY_PREF = "my_pref";
     private EVTApiClient client;
     private TextInputLayout etEmail;
     private TextInputLayout etPassword;
@@ -25,11 +28,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btnLogAnonymous;
     private Button btnSignup;
     private ProgressDialog progressDialog;
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+
+        sharedPref = getSharedPreferences(MY_PREF, Context.MODE_PRIVATE);
+
+        boolean hasLoggedIn = sharedPref.getBoolean("has_logged_in", false);
+
+        if(hasLoggedIn) {
+            gotoMainScreen();
+            return;
+        }
         client = new EVTApiClient(getString(R.string.api_key));
 
         etEmail = (TextInputLayout) findViewById(R.id.et_email);
@@ -85,14 +98,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String socialNetwork = user.getSocialNetwork();
             String email = user.getEmail();
 
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            intent.putExtra("userID", userID);
-            intent.putExtra("userKey", userKey);
-            intent.putExtra("email", email);
-            intent.putExtra("status", status);
-            intent.putExtra("socialNetwork", socialNetwork);
-            startActivity(intent);
-            finish();
+            saveUserData(userID, userKey, status, socialNetwork, email);
+
+            gotoMainScreen();
         }
 
         @Override
@@ -118,5 +126,36 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             builder.create().show();
         }
     };
+
+    private void gotoMainScreen() {
+        String userID = sharedPref.getString("userID", null);
+        String userKey = sharedPref.getString("userKey", null);
+        String status = sharedPref.getString("email", null);
+        String socialNetwork = sharedPref.getString("status", null);
+        String email = sharedPref.getString("socialNetwork", null);
+
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.putExtra("userID", userID);
+        intent.putExtra("userKey", userKey);
+        intent.putExtra("email", email);
+        intent.putExtra("status", status);
+        intent.putExtra("socialNetwork", socialNetwork);
+
+        startActivity(intent);
+        finish();
+    }
+
+    private void saveUserData(String userID, String userKey, String status, String socialNetwork, String email) {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("userID", userID);
+        editor.putString("userKey", userKey);
+        editor.putString("email", email);
+        editor.putString("status", status);
+        editor.putString("socialNetwork", socialNetwork);
+        editor.putBoolean("has_logged_in", true);
+        editor.apply();
+    }
+
+
 
 }

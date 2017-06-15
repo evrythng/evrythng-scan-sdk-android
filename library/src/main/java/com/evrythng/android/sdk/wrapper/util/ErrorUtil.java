@@ -54,7 +54,6 @@ public class ErrorUtil {
             String message = t.getMessage();
             errors.add("Unexpected Error: " + (message != null ? message : t.getClass().getSimpleName()));
         } else {
-            errors.add("Unexpected Error");
             errors.add("Exception is null");
         }
         error.setErrors(errors);

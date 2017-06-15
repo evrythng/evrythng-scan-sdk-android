@@ -3,6 +3,7 @@ package com.evrythng.android.sdk.camera.ui;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -10,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.evrythng.android.sdk.R;
@@ -34,6 +36,7 @@ public class ScannerActivity extends AppCompatActivity {
     private static final String TAG = ScannerActivity.class.getSimpleName();
     private CameraSourcePreview mPreview;
     private ScanManager scanManager;
+    private ScannerPreviewLayout mContainer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,28 +44,11 @@ public class ScannerActivity extends AppCompatActivity {
         setContentView(R.layout.scanner);
 
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
-        final ImageView gridMarks = (ImageView) findViewById(R.id.grid_mark);
+        mContainer = (ScannerPreviewLayout) findViewById(R.id.scanner_container);
 
         final int boxSize = getResources().getDimensionPixelSize(R.dimen.box_size);
 
-        final ViewTreeObserver viewTreeObserver =
-                mPreview.getViewTreeObserver();
-
-        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                ViewTreeObserver obs = mPreview.getViewTreeObserver();
-                obs.removeOnGlobalLayoutListener(this);
-                int height = mPreview.getHeight();
-                int width = mPreview.getWidth();
-                int left = width/2 - boxSize/2;
-                int right = width/2 + boxSize/2;
-                int top = height/2 - boxSize/2;
-                int bottom = height + boxSize/2;
-                gridMarks.layout(left, top, right, bottom);
-            }
-        });
-
+        mContainer.addGridMark(boxSize);
 
         scanManager = new ScanManager(this, mPreview);
         scanManager.setScanBox(boxSize , boxSize);
@@ -73,10 +59,22 @@ public class ScannerActivity extends AppCompatActivity {
         // permission is not granted yet, request permission.
         int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
         if (rc == PackageManager.PERMISSION_GRANTED) {
-            scanManager.createCameraSource();
+            createCameraSource();
         } else {
             scanManager.requestCameraPermission();
         }
+    }
+
+    private void createCameraSource() {
+        mContainer.post(new Runnable() {
+            @Override
+            public void run() {
+                int height = mContainer.getHeight();
+                int width = mContainer.getWidth();
+                scanManager.createCameraSource(height, width);
+                scanManager.startCameraSource();
+            }
+        });
     }
 
     /**
@@ -118,7 +116,7 @@ public class ScannerActivity extends AppCompatActivity {
         if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Camera permission granted - initialize the camera source");
             // we have permission, so create the camerasource
-            scanManager.createCameraSource();
+            createCameraSource();
             return;
         }
 

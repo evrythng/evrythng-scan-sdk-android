@@ -81,4 +81,5 @@ public class EVTCroppedDetector<T> extends Detector<T> {
         return delegate.setFocus(id);
     }
 
+
 }

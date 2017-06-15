@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<com.evrythng.android.sdk.camera.ui.ScannerPreviewLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
-    android:background="#000000">
+    android:background="#000000"
+    android:id="@+id/scanner_container">
 
     <com.evrythng.android.sdk.camera.ui.CameraSourcePreview
         android:id="@+id/preview"
@@ -13,11 +14,4 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"/>
 
-    <ImageView
-        android:id="@+id/grid_mark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/grid_box"
-        android:layout_gravity="center"/>
-
-</FrameLayout>
+</com.evrythng.android.sdk.camera.ui.ScannerPreviewLayout>

@@ -63,7 +63,6 @@ public class ScanManager {
                 new BarcodeDetector.Builder(context)
                 .setBarcodeFormats(format)
                 .build();
-
         EVTCroppedDetector<Barcode> detector = new EVTCroppedDetector<>(barcodeDetector, boxWidth, boxHeight);
 
         TrackerFactory<Barcode> barcodeFactory = new TrackerFactory<>(callback);
@@ -81,7 +80,7 @@ public class ScanManager {
         }
     }
 
-    public void createCameraSource() throws IllegalStateException {
+    public void createCameraSource(int height, int width) throws IllegalStateException {
         Context context = activity.getApplicationContext();
         MultiDetector.Builder builder = new MultiDetector.Builder();
         //Code where to handle scanning preferences
@@ -109,11 +108,13 @@ public class ScanManager {
             return;
         }
 
-        cameraSource = new CameraSource.Builder(context, multiDetector)
+        CameraSource.Builder theBuilder = new CameraSource.Builder(context, multiDetector)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setRequestedFps(15.0f)
-                .setAutoFocusEnabled(true)
-                .build();
+                .setAutoFocusEnabled(true);
+        if(height > 0 && width > 0)
+            theBuilder = theBuilder.setRequestedPreviewSize(height, width);
+        cameraSource = theBuilder.build();
     }
 
     public void startCameraSource() {
