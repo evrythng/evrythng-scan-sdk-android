@@ -31,31 +31,35 @@ public class ErrorUtil {
             error = converter.convert(response.errorBody());
             error.setType(APIError.Type.REQUEST);
         } catch (IOException e) {
-            error = new APIError();
-            error.setType(APIError.Type.EXCEPTION);
-            String cause = e.getCause().getMessage();
-            List<String> errors = new ArrayList<>();
-            errors.add(cause == null ? "Exception on converting error response" : cause);
-            error.setErrors(errors);
-            return error;
+            String cause = e.getMessage();
+            cause = cause == null ? "Exception on converting error response" : cause;
+            IllegalStateException illegalStateException = new IllegalStateException(cause);
+            return parseException(illegalStateException);
         }
         return error;
     }
 
-    public static APIError parseException(Throwable t) {
+    public static APIError parseException(@NonNull Throwable t) {
         APIError error = new APIError();
         error.setType(APIError.Type.EXCEPTION);
         List<String> errors = new ArrayList<>();
 
-        if(t instanceof IOException) {
-            errors.add("No network connection");
-        }
-        else if(t instanceof SocketTimeoutException) {
+        if(t instanceof SocketTimeoutException) {
             errors.add("Request timeout");
-        }
-        else {
+        } else if(t instanceof IOException) {
+            errors.add("No network connection");
+        } else if(t instanceof SocketTimeoutException) {
+            errors.add("Request timeout");
+        } else if(t != null) {
+            String message = t.getMessage();
+            errors.add("Unexpected Error: " + (message != null ? message : t.getClass().getSimpleName()));
+        } else {
             errors.add("Unexpected Error");
+            errors.add("Exception is null");
         }
+        error.setErrors(errors);
         return error;
+
     }
+
 }
