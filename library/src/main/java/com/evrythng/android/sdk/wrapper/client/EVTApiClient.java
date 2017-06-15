@@ -28,11 +28,11 @@ public class EVTApiClient {
     private void checkApiConfig(ApiConfiguration config) {
         if(config == null)
             throw new IllegalArgumentException("Api Configuration should not be null");
-        if (TextUtils.isEmpty(config.getUrl())) {
+        if (config.getUrl() == null || config.getUrl().isEmpty()) {
             throw new IllegalStateException(String.format("URL of provided API configuration is invalid: [url=%s]", config.getUrl()));
         }
 
-        if (TextUtils.isEmpty(config.getKey())) {
+        if (config.getKey() == null || config.getKey().isEmpty()) {
             throw new IllegalStateException(String.format("API key of provided API configuration is invalid: [key=%s]", config.getKey()));
         }
     }
