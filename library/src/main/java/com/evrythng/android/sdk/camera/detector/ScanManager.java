@@ -108,13 +108,13 @@ public class ScanManager {
             return;
         }
 
-        CameraSource.Builder theBuilder = new CameraSource.Builder(context, multiDetector)
+        CameraSource.Builder cameraBuilder = new CameraSource.Builder(context, multiDetector)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setRequestedFps(15.0f)
                 .setAutoFocusEnabled(true);
-        if(height > 0 && width > 0)
-            theBuilder = theBuilder.setRequestedPreviewSize(height, width);
-        cameraSource = theBuilder.build();
+        if(height > 0 && width > 0) //set preview size only when height and width is not zero
+            cameraBuilder = cameraBuilder.setRequestedPreviewSize(height, width);
+        cameraSource = cameraBuilder.build();
     }
 
     public void startCameraSource() {
