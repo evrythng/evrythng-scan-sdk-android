@@ -5,21 +5,19 @@ import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.barcode.Barcode;
 
 /**
- * Created by phillipcui on 5/26/17.
+ * Created by phillipcui on 6/14/17.
  */
 
-public class BarcodeTrackerFactory implements MultiProcessor.Factory<Barcode> {
+public class TrackerFactory<T> implements MultiProcessor.Factory<T> {
 
-    private final TrackerCallback<Barcode> callback;
+    private final TrackerCallback<T> callback;
 
-    public BarcodeTrackerFactory(TrackerCallback<Barcode> callback) {
+    public TrackerFactory(TrackerCallback<T> callback) {
         this.callback = callback;
     }
 
     @Override
-    public Tracker<Barcode> create(Barcode barcode) {
+    public Tracker<T> create(T barcode) {
         return new ScanTracker<>(callback);
     }
-
-
 }

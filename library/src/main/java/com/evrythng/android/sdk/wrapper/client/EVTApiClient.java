@@ -16,11 +16,11 @@ public class EVTApiClient {
 
     private final ApiConfiguration config;
 
-    public EVTApiClient(String apiKey) {
+    public EVTApiClient(@NonNull String apiKey) {
         this(new ApiConfiguration(apiKey));
     }
 
-    EVTApiClient(@NonNull ApiConfiguration config) {
+    public EVTApiClient(@NonNull ApiConfiguration config) {
         checkApiConfig(config);
         this.config = config;
     }

@@ -63,7 +63,7 @@ public class ScanService extends BaseService<ScanService> {
         }
         Bundle bundle = new Bundle();
         bundle.putInt(Constants.SCAN_MODE, ScanManager.MODE_BARCODE);
-        bundle.putInt(Constants.BarcodeFormat, format);
+        bundle.putInt(Constants.SCAN_FORMAT, format);
         activity.startActivityForResult(new Intent(activity, ScannerActivity.class), REQUEST_SCAN, bundle);
     }
 
@@ -150,8 +150,8 @@ public class ScanService extends BaseService<ScanService> {
             if (data != null && data.getExtras() != null) {
                 Bundle bundle = data.getExtras();
 
-                String value = bundle.getString(Constants.BarcodeValue, "");
-                int format = bundle.getInt(Constants.BarcodeFormat, Barcode.ALL_FORMATS);
+                String value = bundle.getString(Constants.SCAN_VALUE, "");
+                int format = bundle.getInt(Constants.SCAN_FORMAT, Barcode.ALL_FORMATS);
 
                 //get the ScanMethod enum based on the returned format
                 ScanMethod scanMethod = getScanMethod(format);
