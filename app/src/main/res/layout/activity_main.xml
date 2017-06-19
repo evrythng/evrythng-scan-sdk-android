@@ -3,12 +3,36 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/colorPrimary">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btn_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:text="LOGOUT"
+                android:layout_margin="8dp"
+                android:textColor="#ffffff"
+                android:background="@null" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
     <TextView
         android:id="@+id/tv_userId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="User ID: "
-        android:layout_margin="8dp" />
+        android:layout_margin="8dp"
+        android:layout_below="@+id/toolbar"/>
 
     <TextView
         android:id="@+id/tv_userKey"

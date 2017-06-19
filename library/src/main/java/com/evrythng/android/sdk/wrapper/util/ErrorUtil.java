@@ -28,6 +28,8 @@ public class ErrorUtil {
 
         APIError error;
         try {
+            if(response == null)
+                return parseException(new IllegalStateException("Response object should not be null"));
             error = converter.convert(response.errorBody());
             error.setType(APIError.Type.REQUEST);
         } catch (IOException e) {

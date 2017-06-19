@@ -3,7 +3,7 @@ package com.evrythng.android.sdk.model;
 import com.google.gson.annotations.Expose;
 
 /**
- * Created by phillipcui on 6/2/17.
+ * Model for the user credentials
  */
 
 public class Credentials {

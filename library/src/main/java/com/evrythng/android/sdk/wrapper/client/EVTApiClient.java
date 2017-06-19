@@ -9,7 +9,7 @@ import com.evrythng.android.sdk.wrapper.client.service.scan.ScanService;
 
 
 /**
- * Created by phillipcui on 5/26/17.
+ * The EVT API Client wrapper. This is where all the request to the EVT server happens.
  */
 
 public class EVTApiClient {
@@ -45,10 +45,16 @@ public class EVTApiClient {
         return config.getKey();
     }
 
+    /**
+     * Handles all the scan related API requests
+     */
     public ScanService scan() {
         return new ScanService(this);
     }
 
+    /**
+     * Handles all the scan related API requests
+     */
     public AuthService auth() {
         return new AuthService(this);
     }

@@ -30,7 +30,8 @@ import java.io.IOException;
 import static android.app.Activity.RESULT_OK;
 
 /**
- * Created by phillipcui on 5/31/17.
+ * Manages whole Scanning Logic. Includes the camera permissions, camera lifecycle,
+ * camera preview size, frame rate, crop guide size and result wrapping.
  */
 
 public class ScanManager {
@@ -58,6 +59,10 @@ public class ScanManager {
         loadScanConfiguration();
     }
 
+    /**
+     * Generates the barcode detector and set the format to be used
+     * @return the barcode detector
+     */
     public Detector<Barcode> generateBarcodeDetector(Context context, int format, TrackerCallback callback) {
         BarcodeDetector barcodeDetector =
                 new BarcodeDetector.Builder(context)
@@ -71,7 +76,7 @@ public class ScanManager {
         return detector;
     }
 
-    public void loadScanConfiguration() {
+    private void loadScanConfiguration() {
         //check for any configs sent via intent
         if(activity.getIntent().getExtras() != null) {
             Bundle bundle = activity.getIntent().getExtras();
@@ -80,6 +85,14 @@ public class ScanManager {
         }
     }
 
+    /**
+     * Create the camera instance
+     * @param height - height of the camera preview
+     * @param width - width of the camera preview
+     * Note: this is not always followed. The Camera still looks for the nearest Preview size supported
+     *              by the device.
+     * @throws IllegalStateException
+     */
     public void createCameraSource(int height, int width) throws IllegalStateException {
         Context context = activity.getApplicationContext();
         MultiDetector.Builder builder = new MultiDetector.Builder();
@@ -117,6 +130,9 @@ public class ScanManager {
         cameraSource = cameraBuilder.build();
     }
 
+    /**
+     * Starts the Camera's preview
+     */
     public void startCameraSource() {
 
         // check that the device has play services available.
@@ -139,16 +155,25 @@ public class ScanManager {
         }
     }
 
+    /**
+     * Releases the camera instance
+     */
     public void releaseCameraSource() {
         if (cameraSource != null) {
             cameraSource.release();
         }
     }
 
+    /**
+     * Stops the camera preview
+     */
     public void stop() {
         preview.stop();
     }
 
+    /**
+     * Sends the result to the calling activity.
+     */
     public void sendResult(String value, int format) {
         Intent intent = new Intent();
         intent.putExtra(Constants.SCAN_VALUE, value);
@@ -157,14 +182,24 @@ public class ScanManager {
         activity.finish();
     }
 
+    /**
+     * Specify the tracker callback that will be notified the result of the detector.
+     */
     public <T> void setTrackerCallback(TrackerCallback<T> trackerCallback) {
         this.trackerCallback = trackerCallback;
     }
 
+    /**
+     * Determine the scan mode of the camera
+     * @return
+     */
     public int getScanMode() {
         return scanMode;
     }
 
+    /**
+     * Request the camera permission
+     */
     public void requestCameraPermission() {
         Log.w(TAG, "Camera permission is not granted. Requesting permission");
 
@@ -190,8 +225,20 @@ public class ScanManager {
                 .show();
     }
 
+    /**
+     * Specify the size of the crop guide
+     * @param boxWidth
+     * @param boxHeight
+     */
     public void setScanBox(int boxWidth, int boxHeight) {
         this.boxWidth = boxWidth;
         this.boxHeight = boxHeight;
+    }
+
+    /**
+     * Get the current camera instance
+     */
+    public CameraSource getCameraSource() {
+        return cameraSource;
     }
 }

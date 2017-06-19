@@ -16,11 +16,11 @@ import retrofit2.Response;
  * Created by phillipcui on 5/29/17.
  */
 
-public abstract class BaseService<T> {
+public abstract class BaseAPIService {
 
     private final EVTApiClient client;
 
-    public BaseService(EVTApiClient client) {
+    public BaseAPIService(EVTApiClient client) {
         this.client = client;
     }
     public EVTApiClient getClient() {

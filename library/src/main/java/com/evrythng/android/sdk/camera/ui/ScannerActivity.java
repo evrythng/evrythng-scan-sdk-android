@@ -21,6 +21,7 @@ import com.evrythng.android.sdk.model.Constants;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.evrythng.android.sdk.wrapper.client.service.scan.ScanMethod;
+import com.google.android.gms.common.images.Size;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -28,7 +29,7 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.android.gms.vision.text.TextBlock;
 
 /**
- * Created by phillipcui on 5/23/17.
+ * The built-in scanner
  */
 
 public class ScannerActivity extends AppCompatActivity {
@@ -37,6 +38,7 @@ public class ScannerActivity extends AppCompatActivity {
     private CameraSourcePreview mPreview;
     private ScanManager scanManager;
     private ScannerPreviewLayout mContainer;
+    private int boxSize;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,9 +48,7 @@ public class ScannerActivity extends AppCompatActivity {
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mContainer = (ScannerPreviewLayout) findViewById(R.id.scanner_container);
 
-        final int boxSize = getResources().getDimensionPixelSize(R.dimen.box_size);
-
-        mContainer.addGridMark(boxSize);
+        boxSize = getResources().getDimensionPixelSize(R.dimen.box_size);
 
         scanManager = new ScanManager(this, mPreview);
         scanManager.setScanBox(boxSize , boxSize);
@@ -73,6 +73,12 @@ public class ScannerActivity extends AppCompatActivity {
                 int width = mContainer.getWidth();
                 scanManager.createCameraSource(height, width);
                 scanManager.startCameraSource();
+                //after starting the preview add the crop mark
+                //determine the preview size first
+                Size size = scanManager.getCameraSource().getPreviewSize();
+                mContainer.setPreviewSize(size.getWidth(), size.getHeight());
+                mContainer.addGridMark(boxSize);
+                mContainer.requestLayout();
             }
         });
     }

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by phillipcui on 6/1/17.
+ * Base class for all the resource models
  */
 
 public class BaseModel {
@@ -30,6 +30,15 @@ public class BaseModel {
 
     @Expose
     private Map<String,String> customFields;
+
+    @Expose
+    private Long createdAt;
+
+    @Expose
+    private Long updatedAt;
+
+    @Expose
+    private Long activatedAt;
 
     public String getId() {
         return id;
@@ -85,5 +94,29 @@ public class BaseModel {
 
     public void setCustomFields(Map<String, String> customFields) {
         this.customFields = customFields;
+    }
+
+    public Long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(long createdAt) {
+        this.createdAt = Long.valueOf(createdAt);
+    }
+
+    public Long getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(long updatedAt) {
+        this.updatedAt = Long.valueOf(updatedAt);
+    }
+
+    public Long getActivatedAt() {
+        return activatedAt;
+    }
+
+    public void setActivatedAt(long activatedAt) {
+        this.activatedAt = Long.valueOf(activatedAt);
     }
 }

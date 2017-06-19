@@ -1,13 +1,12 @@
 package com.evrythng.android.sdk.wrapper.client.service.scan;
 
-import com.evrythng.android.sdk.model.Meta;
 import com.google.gson.annotations.Expose;
 
 /**
  * Created by phillipcui on 5/30/17.
  */
 
-public class ScanMeta extends Meta {
+public class ScanMeta {
 
     @Expose
     private String method;

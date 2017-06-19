@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import com.evrythng.android.sdk.R;
 
 /**
- * Created by phillipcui on 6/15/17.
+ * Custom Grid mark for the crop guide
  */
 
 public class CustomGridMark extends ImageView {
