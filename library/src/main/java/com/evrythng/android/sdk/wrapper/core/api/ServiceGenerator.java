@@ -1,6 +1,6 @@
 package com.evrythng.android.sdk.wrapper.core.api;
 
-import com.evrythng.android.sdk.wrapper.client.service.BaseService;
+import com.evrythng.android.sdk.wrapper.client.service.BaseAPIService;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ public class ServiceGenerator {
 
     private final Retrofit retrofit;
 
-    public ServiceGenerator(final BaseService baseService) {
+    public ServiceGenerator(final BaseAPIService baseService) {
         checkService(baseService);
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -52,7 +52,7 @@ public class ServiceGenerator {
                 .build();
     }
 
-    private void checkService(BaseService baseService) {
+    private void checkService(BaseAPIService baseService) {
         if(baseService == null)
             throw new IllegalStateException("ServiceGenerator: Service should not be null");
 

@@ -3,7 +3,7 @@ package com.evrythng.android.sdk.model;
 import com.evrythng.android.sdk.wrapper.client.service.scan.ScanMethod;
 
 /**
- * Created by phillipcui on 5/31/17.
+ * Model for the built-in camera result
  */
 
 public class IntentResult {

@@ -14,7 +14,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 import java.io.ByteArrayOutputStream;
 
 /**
- * Created by phillipcui on 6/14/17.
+ * Decorator class that limits the area in the frame to be scanned by the original detector
  */
 
 public class EVTCroppedDetector<T> extends Detector<T> {
@@ -70,6 +70,7 @@ public class EVTCroppedDetector<T> extends Detector<T> {
                         .setBitmap(bitmap)
                         .setRotation(frame.getMetadata().getRotation())
                         .build();
+
         return delegate.detect(croppedFrame);
     }
 

@@ -1,10 +1,9 @@
 package com.evrythng.android.sdk;
 
 import com.evrythng.android.sdk.wrapper.client.EVTApiClient;
-import com.evrythng.android.sdk.wrapper.client.service.BaseService;
+import com.evrythng.android.sdk.wrapper.client.service.BaseAPIService;
 import com.evrythng.android.sdk.wrapper.core.APIError;
 import com.evrythng.android.sdk.wrapper.core.api.ServiceGenerator;
-import com.evrythng.android.sdk.wrapper.core.config.ApiConfiguration;
 import com.evrythng.android.sdk.wrapper.util.ErrorUtil;
 
 import junit.framework.Assert;
@@ -25,7 +24,7 @@ public class ErrorUtilTest {
 
     //Instantiate for for testing parsing response error
     EVTApiClient client = new EVTApiClient("API_KEY");
-    BaseService service = new BaseService(client) {
+    BaseAPIService service = new BaseAPIService(client) {
         @Override
         public EVTApiClient getClient() {
             return super.getClient();

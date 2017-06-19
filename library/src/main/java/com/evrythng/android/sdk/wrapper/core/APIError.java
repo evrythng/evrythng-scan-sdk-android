@@ -30,6 +30,9 @@ public class APIError {
     @Expose
     private String moreInfo;
 
+    @Expose
+    private Integer code;
+
     public int getStatus() {
         return status;
     }
@@ -60,5 +63,13 @@ public class APIError {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = Integer.valueOf(code);
     }
 }

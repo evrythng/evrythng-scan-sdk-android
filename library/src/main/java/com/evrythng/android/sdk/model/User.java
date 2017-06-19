@@ -42,6 +42,9 @@ public class User {
     @Expose
     private String activationCode;
 
+    @Expose
+    private String logout;
+
     public String getUserId() {
         return userId;
     }
@@ -118,4 +121,5 @@ public class User {
     public void setActivationCode(String activationCode) {
         this.activationCode = activationCode;
     }
+
 }
