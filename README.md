@@ -42,8 +42,8 @@ Step 3: In your AndroidManifest.xml
 
 Include this two permissions:
 ```xml
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" /> 
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.CAMERA" />
 ```
 
 # How to:
@@ -51,208 +51,214 @@ Include this two permissions:
 #### Create instance of EVTClient
 
 ```java
-        EVTClient client = new EvtClient("APP_API_KEY");
+EVTClient client = new EvtClient("APP_API_KEY");
 ```
 
 ### Authentication
-##### Create an anonymous user
+#### Create an anonymous user
 Asynchronous Call
 ```java
-    /** Asynchronous Call */
-    EVTClient client = new EVTClient("APP_API_KEY");
-	client.auth().createAnonymousUser().execute(new ServiceCallback<User>() {
+/** Asynchronous Call */
+EVTClient client = new EVTClient("APP_API_KEY");
+client.auth().createAnonymousUser().execute(new ServiceCallback<User>() {
 
-		@Override
-        public void onResponse(User user) {
+    @Override public void onResponse(User user) {
 
-        }
+    }
 
-        @OVerride
-        public void onFailure(APIError error) {
+    @OVerride public void onFailure(APIError error) {
 
-        }
-	});
+    }
+});
 ```
 Synchronous Call
 ```java
-    /** Note: Don't forget to call this on a non-ui blocking thread. */
-    EVTClient client = new EVTClient("APP_API_KEY");
-	try {
-		User user = client.auth().createAnonymousUser().execute();
-	}
-	catch(APIException e) {
+ /** Note: Don't forget to call this on a non-ui blocking thread. */
+ EVTClient client = new EVTClient("APP_API_KEY");
+ try {
+        User user = client.auth().createAnonymousUser().execute();
+ }
+ catch(APIException e) {
 
-	}
+ }
 ```
-##### Create a user
+#### Create a user
 Asynchronous Call
 ```java
-        User user = new User();
-        user.setEmail("emai@gmail.com");
-        user.setPassword("yourpassword");
-        user.setFirstName("firstName");
-        user.setLastName("lastName");
+User user = new User();
+user.setEmail("emai@gmail.com");
+user.setPassword("yourpassword");
+user.setFirstName("firstName");
+user.setLastName("lastName");
 
-		EVTClient client = new EVTClient("APP_API_KEY");
-		client.auth().createUser(user).execute(ServiceCallback<User>() {
-			@Override
-	        public void onResponse(User user) {
-	        	//code to handle activation
-	        }
+EVTClient client = new EVTClient("APP_API_KEY");
+client.auth().createUser(user).execute(ServiceCallback<User>() {
 
-	        @OVerride
-	        public void onFailure(APIError error) {
+    @Override
+    public void onResponse(User user) {
+       //code to handle activation
+    }
 
-	        }
-		});
+    @Override
+    public void onFailure(APIError error) {
+
+    }
+});
 ```
 Synchronous call
 ```java
 
-		EVTClient client = new EVTClient("APP_API_KEY");
-		try {
+EVTClient client = new EVTClient("APP_API_KEY");
+try {
 
-				User user = new User();
-		        user.setEmail("emai@gmail.com");
-		        user.setPassword("yourpassword");
-		        user.setFirstName("firstName");
-		        user.setLastName("lastName");
-				
-				user = client.auth().createUser(user).execute();
-				//activate user based on response
-		}
-		catch(APIException e) {
+    User user = new User();
+    user.setEmail("emai@gmail.com");
+    user.setPassword("yourpassword");
+    user.setFirstName("firstName");
+    user.setLastName("lastName");
 
-		}
+    user = client.auth().createUser(user).execute();
+    //activate user based on response
+}
+catch(APIException e) {
+
+}
 
 ```
 
-##### Activate User
+#### Activate User
 
 Asynchronous Call
 
 ```java
-        EVTClient client = new EVTClient("APP_API_KEY");
-		evtClient.auth().validateUser(user.getUserId(), user.getActivationCode()).execute(ServiceCallback<User>() {
-			@Override
-	        public void onResponse(User user) {
-	        	//code to handle activation
-	        }
+EVTClient client = new EVTClient("APP_API_KEY");
+evtClient.auth().validateUser(user.getUserId(), user.getActivationCode()).execute(ServiceCallback<User>() {
+    @Override
+    public void onResponse(User user) {
+        //code to handle activation
+    }
 
-	        @OVerride
-	        public void onFailure(APIError error) {
+    @Override
+    public void onFailure(APIError error) {
 
-	        }
+    }
 		});
 ```
 Synchronous Call
 ```java
-        EVTClient client = new EVTClient("APP_API_KEY");
-		/** (Asynchronous Call) ** assumed that you already had the user object returned by the EVT Server. */
-	
-		try {
-			User user = evtClient.auth().validateUser(user.getUserId(), user.getActivationCode()).execute();
-		}
-		catch(APIException e) {
+EVTClient client = new EVTClient("APP_API_KEY");
+// (Asynchronous Call) ** assumed that you already had the
+// user object returned by the EVT Server. */
+try {
+    User user = evtClient.auth().validateUser(user.getUserId(), user.getActivationCode()).execute();
+}
+catch(APIException e) {
 
-		}
+}
 ```
 
 ##### Login user
 Asynchronous Call
 ```java
-    EVTClient client = new EVTClient("APP_API_KEY");
-    client.auth().useCredentials("email", "password").execute(ServiceCallback<User>() {
-			@Override
-	        public void onResponse(User user) {
-	        
-	        }
-	        
-	        @OVerride
-	        public void onFailure(APIError error) {
+EVTClient client = new EVTClient("APP_API_KEY");
+client.auth().useCredentials("email", "password").execute(ServiceCallback<User>() {
 
-	        }
-		});
+    @Override
+    public void onResponse(User user) {
+
+    }
+
+    @Override
+    public void onFailure(APIError error) {
+
+    }
+
+});
 ```
 
 ### Scanning
 
-##### Using the SDK's built-in Scanning Camera.
+#### Using the SDK's built-in Scanning Camera.
 
 ```java
-    EVTClient client = new EVTClient("API_KEY");
-    client.scan().launchScannerCamera(<activity instance>); 
+EVTClient client = new EVTClient("API_KEY");
+client.scan().launchScannerCamera(<activity instance>);
 
-    /** Always include this to your activity where the launchScannerCamera() is called 
-    * This handles the camera response when there is a successful scan or closed the camera without scanning anything.
-    **/
+/** Always include this to your activity where the launchScannerCamera()
+ *  is called. This handles the camera response when there is a
+ *  successful scan or closed the camera without scanning anything.
+ **/
 
-     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        IntentResult intentResult = evtClient.scan().parseScannerResponse(requestCode, resultCode, data); //code that parses the response from the Scanner Camera
-        if(intentResult != null) {
-           EVTClient client = new EVTClient("API_KEY");
-            client.scan().useIntentResult(intentResult).execute(mServiceCallback);
-        }
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    //code that parses the response from the Scanner Camera
+    IntentResult intentResult = evtClient.scan()
+        .parseScannerResponse(requestCode, resultCode, data);
+
+    if(intentResult != null) {
+       EVTClient client = new EVTClient("API_KEY");
+        client.scan().useIntentResult(intentResult).execute(mServiceCallback);
     }
+}
 ```
 
 ##### Using the indentify method. Identify manually if the scanned value is a thng/product.
 
 Asynchronous Call
 ```java
-        EVTClient client = new EVTClient("API_KEY");
-        client.scan().setMethod(ScanMethod.EAN_13).useIdentify("2323232132").execute(new ServiceCallback<List<ScanResponse>>() {
-            @Override
-	        public void onResponse(List<ScanResponse> response) {
-	        	
-	        }
-	        
-	        @OVerride
-	        public void onFailure(APIError error) {
+EVTClient client = new EVTClient("API_KEY");
+client.scan().setMethod(ScanMethod.EAN_13).useIdentify("2323232132").execute(new ServiceCallback<List<ScanResponse>>() {
+    @Override
+    public void onResponse(List<ScanResponse> response) {
 
-	        }
-        });
+    }
+
+    @Override
+    public void onFailure(APIError error) {
+
+    }
+});
 ```
 Synchronous Call
 
 ```java
-    EVTClient client = new EVTClient("API_KEY");
-    try {
-        List<ScanResponse> response = client.scan().setMethod(ScanMethod.EAN_13).useIdentify("32332323").execute();
-        }
-        catch(APIException e) {
+EVTClient client = new EVTClient("API_KEY");
+try {
+    List<ScanResponse> response = client.scan().setMethod(ScanMethod.EAN_13).useIdentify("32332323").execute();
+}
+catch(APIException e) {
 
-        }
+}
 ```
 
 ##### Using the usePhoto method. Scan a photo for a barcode
 
 Asynchronous Call
 ```java
-        EVTClient client = new EVTClient("API_KEY");
-        client.scan().setMethod(ScanMethod.EAN_13).usePhoto("imagePath").execute(new ServiceCallback<List<ScanResponse>>() {
-            @Override
-	        public void onResponse(List<ScanResponse> response) {
-	        	
-	        }
-	        
-	        @OVerride
-	        public void onFailure(APIError error) {
+EVTClient client = new EVTClient("API_KEY");
+client.scan().setMethod(ScanMethod.EAN_13).usePhoto("imagePath").execute(new ServiceCallback<List<ScanResponse>>() {
+    @Override
+    public void onResponse(List<ScanResponse> response) {
 
-	        }
-        });
+    }
+
+    @Override
+    public void onFailure(APIError error) {
+
+    }
+});
 ```
 Synchronous Call
 
 ```java
-    EVTClient client = new EVTClient("API_KEY");
-    try {
-        List<ScanResponse> response = client.scan().setMethod(ScanMethod.EAN_13).usePhoto("imagePath").execute();
-        }
-        catch(APIException e) {
+EVTClient client = new EVTClient("API_KEY");
+try {
+    List<ScanResponse> response = client.scan().setMethod(ScanMethod.EAN_13).usePhoto("imagePath").execute();
+}
+catch(APIException e) {
 
-        }
+}
 ```
 
