@@ -86,7 +86,9 @@ public class ScanService extends BaseAPIService {
      */
     public ScanService useIntentResult(IntentResult result) {
         if(result != null) {
-            scanMethod = new ScanMethod[] { result.getScanMethod() };
+            //do not add scan method if result's scan method is null
+            if(result.getScanMethod() != null)
+                scanMethod = new ScanMethod[] { result.getScanMethod() };
             barCode = result.getValue();
         }
         return this;
@@ -202,7 +204,7 @@ public class ScanService extends BaseAPIService {
             if (data != null && data.getExtras() != null) {
                 Bundle bundle = data.getExtras();
 
-                String value = bundle.getString(Constants.SCAN_VALUE, "");
+                String value = bundle.getString(Constants.SCAN_VALUE, null);
                 int format = bundle.getInt(Constants.SCAN_FORMAT, Barcode.ALL_FORMATS);
 
                 //get the ScanMethod enum based on the returned format

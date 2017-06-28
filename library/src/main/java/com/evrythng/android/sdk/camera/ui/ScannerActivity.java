@@ -75,10 +75,12 @@ public class ScannerActivity extends AppCompatActivity {
                 scanManager.startCameraSource();
                 //after starting the preview add the crop mark
                 //determine the preview size first
-                Size size = scanManager.getCameraSource().getPreviewSize();
-                mContainer.setPreviewSize(size.getWidth(), size.getHeight());
-                mContainer.addGridMark(boxSize);
-                mContainer.requestLayout();
+                Size size = scanManager.getPreviewSize();
+                if(size != null) {
+                    mContainer.setPreviewSize(size.getWidth(), size.getHeight());
+                    mContainer.addGridMark(boxSize);
+                    mContainer.requestLayout();
+                }
             }
         });
     }

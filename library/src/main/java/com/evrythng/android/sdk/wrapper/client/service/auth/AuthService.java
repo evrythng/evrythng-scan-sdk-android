@@ -21,15 +21,16 @@ import retrofit2.Response;
  */
 public class AuthService extends BaseAPIService {
 
-    private final ServiceGenerator manager;
+    private ServiceGenerator manager;
     private String email, password;
     private User user;
-    private int action = 0;
+    private final int NO_ACTION = 0;
     private final int CREATE_USER = 1;
     private final int CREATE_ANON = 2;
     private final int LOGIN_USER = 4;
     private final int ACTIVATE_USER = 8;
     private final int LOGOUT_USER = 16;
+    private int action = NO_ACTION;
 
     public AuthService(EVTApiClient client) {
         super(client);
@@ -97,6 +98,9 @@ public class AuthService extends BaseAPIService {
     public User execute() throws APIException {
         try {
             Call<User> call = generateCall();
+            //resets the action after generating the call object to prevent recalling the previous
+            // action when execute is called without specifying an action
+            action = NO_ACTION;
             if(call == null)
                 throw new APIException(ErrorUtil.parseException(new IllegalStateException("Could not execute null call object")));
 
@@ -119,6 +123,9 @@ public class AuthService extends BaseAPIService {
     public void execute(final ServiceCallback<User> callback) {
         RequestCallback requestCallback = new RequestCallback(manager, callback);
         Call<User> call = generateCall();
+        //resets the action after generating the call object to prevent recalling the previous
+        // action when execute is called without specifying an action
+        action = NO_ACTION;
         if(call == null)
             requestCallback.onFailure(call, new IllegalStateException("Could not execute null call object"));
         call.enqueue(requestCallback);

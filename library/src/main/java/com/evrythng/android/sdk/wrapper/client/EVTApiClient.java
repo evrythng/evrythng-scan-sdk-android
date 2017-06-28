@@ -27,7 +27,7 @@ public class EVTApiClient {
 
     private void checkApiConfig(ApiConfiguration config) {
         if(config == null)
-            throw new IllegalArgumentException("Api Configuration should not be null");
+            throw new IllegalStateException("Api Configuration should not be null");
         if (config.getUrl() == null || config.getUrl().isEmpty()) {
             throw new IllegalStateException(String.format("URL of provided API configuration is invalid: [url=%s]", config.getUrl()));
         }

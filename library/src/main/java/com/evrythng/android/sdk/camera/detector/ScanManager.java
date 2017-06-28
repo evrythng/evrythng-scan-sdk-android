@@ -18,6 +18,7 @@ import com.evrythng.android.sdk.camera.ui.CameraSourcePreview;
 import com.evrythng.android.sdk.model.Constants;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.images.Size;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.MultiDetector;
@@ -94,6 +95,17 @@ public class ScanManager {
      * @throws IllegalStateException
      */
     public void createCameraSource(int height, int width) throws IllegalStateException {
+
+        // check that the device has play services available.
+        int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(
+                activity.getApplicationContext());
+        if (code != ConnectionResult.SUCCESS) {
+            Dialog dlg =
+                    GoogleApiAvailability.getInstance().getErrorDialog(activity, code, RC_HANDLE_GMS);
+            dlg.show();
+            return;
+        }
+
         Context context = activity.getApplicationContext();
         MultiDetector.Builder builder = new MultiDetector.Builder();
         //Code where to handle scanning preferences
@@ -134,15 +146,6 @@ public class ScanManager {
      * Starts the Camera's preview
      */
     public void startCameraSource() {
-
-        // check that the device has play services available.
-        int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(
-                activity.getApplicationContext());
-        if (code != ConnectionResult.SUCCESS) {
-            Dialog dlg =
-                    GoogleApiAvailability.getInstance().getErrorDialog(activity, code, RC_HANDLE_GMS);
-            dlg.show();
-        }
 
         if (cameraSource != null) {
             try {
@@ -240,5 +243,11 @@ public class ScanManager {
      */
     public CameraSource getCameraSource() {
         return cameraSource;
+    }
+
+    public Size getPreviewSize() {
+        if(cameraSource == null)
+            return null;
+        return cameraSource.getPreviewSize();
     }
 }
