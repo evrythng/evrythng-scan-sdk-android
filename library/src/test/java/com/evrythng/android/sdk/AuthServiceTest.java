@@ -1,18 +1,9 @@
 package com.evrythng.android.sdk;
 
-import android.util.Log;
-
 import com.evrythng.android.sdk.model.User;
 import com.evrythng.android.sdk.wrapper.client.EVTApiClient;
-import com.evrythng.android.sdk.wrapper.client.service.auth.AuthService;
-import com.evrythng.android.sdk.wrapper.client.service.interfaces.ServiceCallback;
-import com.evrythng.android.sdk.wrapper.core.APIError;
 import com.evrythng.android.sdk.wrapper.core.APIException;
-import com.evrythng.android.sdk.wrapper.core.api.ServiceGenerator;
 import com.evrythng.android.sdk.wrapper.core.config.ApiConfiguration;
-import com.google.gson.Gson;
-
-import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
@@ -25,7 +16,8 @@ import java.io.IOException;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
-import retrofit2.Call;
+
+import static junit.framework.Assert.assertEquals;
 
 
 /**
@@ -57,33 +49,33 @@ public class AuthServiceTest {
     @Test
     public void AuthService_CreateAnonymousUser_Valid() throws Exception {
 
-        this.mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("{}"));
+        mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("{}"));
 
         client.auth().createAnonymousUser().execute();
 
         RecordedRequest request = this.mockWebServer.takeRequest();
 
-        Assert.assertEquals("POST", request.getMethod());
-        Assert.assertEquals("{\"anonymous\":true}", request.getBody().readUtf8());
+        assertEquals("POST", request.getMethod());
+        assertEquals("{\"anonymous\":true}", request.getBody().readUtf8());
     }
 
     @Test
     public void AuthService_LoginUser_Valid() throws Exception {
 
-        this.mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("{}"));
+        mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("{}"));
 
         client.auth().useCredentials("Email", "Password").execute();
 
         RecordedRequest request = this.mockWebServer.takeRequest();
 
-        Assert.assertEquals("POST", request.getMethod());
-        Assert.assertEquals("{\"email\":\"Email\",\"password\":\"Password\"}", request.getBody().readUtf8());
+        assertEquals("POST", request.getMethod());
+        assertEquals("{\"email\":\"Email\",\"password\":\"Password\"}", request.getBody().readUtf8());
     }
 
     @Test
     public void AuthService_CreateUser_Valid() throws Exception {
 
-        this.mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("{}"));
+        mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("{}"));
 
         User user = new User();
         user.setEmail("email");
@@ -95,8 +87,8 @@ public class AuthServiceTest {
 
         RecordedRequest request = this.mockWebServer.takeRequest();
 
-        Assert.assertEquals("POST", request.getMethod());
-        Assert.assertEquals("{" +
+        assertEquals("POST", request.getMethod());
+        assertEquals("{" +
                 "\"email\":\"email\"," +
                 "\"password\":\"password\"," +
                 "\"firstName\":\"firstname\"," +
@@ -106,33 +98,33 @@ public class AuthServiceTest {
     @Test
     public void AuthService_ValidateUser_Valid() throws Exception {
 
-        this.mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("{}"));
+        mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("{}"));
 
         client.auth().validateUser("ID", "Activation").execute();
 
         RecordedRequest request = this.mockWebServer.takeRequest();
 
-        Assert.assertEquals("POST", request.getMethod());
-        Assert.assertEquals("{\"evrythngUser\":\"ID\",\"activationCode\":\"Activation\"}", request.getBody().readUtf8());
+        assertEquals("POST", request.getMethod());
+        assertEquals("{\"evrythngUser\":\"ID\",\"activationCode\":\"Activation\"}", request.getBody().readUtf8());
     }
 
     @Test
     public void AuthService_LogoutUser_Valid() throws Exception {
 
-        this.mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("{}"));
+        mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("{}"));
 
-        client.auth().logoutUser().execute();
+        client.auth().logoutUser("API_KEY").execute();
 
         RecordedRequest request = this.mockWebServer.takeRequest();
 
-        Assert.assertEquals("POST", request.getMethod());
-        Assert.assertEquals("APIKEY", request.getHeader("Authorization"));
+        assertEquals("POST", request.getMethod());
+        assertEquals("API_KEY", request.getHeader("Authorization"));
     }
 
     @Test
     public void AuthService_NoAction_execute() throws Exception {
 
-        this.mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("{}"));
+        mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("{}"));
 
         thrown.expect(APIException.class);
 

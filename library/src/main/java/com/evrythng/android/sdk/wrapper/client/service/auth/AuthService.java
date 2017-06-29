@@ -1,5 +1,7 @@
 package com.evrythng.android.sdk.wrapper.client.service.auth;
 
+import android.support.annotation.NonNull;
+
 import com.evrythng.android.sdk.model.Credentials;
 import com.evrythng.android.sdk.model.User;
 import com.evrythng.android.sdk.wrapper.client.EVTApiClient;
@@ -23,6 +25,7 @@ public class AuthService extends BaseAPIService {
 
     private ServiceGenerator manager;
     private String email, password;
+    private String userAPIKey;
     private User user;
     private final int NO_ACTION = 0;
     private final int CREATE_USER = 1;
@@ -85,8 +88,9 @@ public class AuthService extends BaseAPIService {
     /**
      * Log out current user using User API Key
      */
-    public AuthService logoutUser() {
+    public AuthService logoutUser(@NonNull String userAPIKey) {
         action = LOGOUT_USER;
+        this.userAPIKey = userAPIKey;
         return this;
     }
 
@@ -147,6 +151,9 @@ public class AuthService extends BaseAPIService {
                 creds.setPassword(password);
                 return service.loginUser(creds);
             case LOGOUT_USER:
+                ServiceGenerator manager =
+                        new ServiceGenerator(getClient().getUrl(), userAPIKey, null);
+                service = manager.createService();
                 return service.logoutUser();
         }
         return null;

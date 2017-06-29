@@ -176,6 +176,46 @@ client.auth().useCredentials("email", "password").execute(ServiceCallback<User>(
 });
 ```
 
+Synchronous Call
+```java
+EVTClient client = new EVTClient("APP_API_KEY");
+try {
+    User user = client.auth().useCredentials("email", "password").execute();
+} catch(APIException e) {
+
+}
+```
+##### Logout user
+
+Asynchronous Call
+```java
+EVTClient client = new EVTClient("APP_API_KEY");
+client.auth().logoutUser("USER_API_KEY").execute(ServiceCallback<User>() {
+
+    @Override
+    public void onResponse(User user) {
+
+    }
+
+    @Override
+    public void onFailure(APIError error) {
+
+    }
+
+});
+```
+
+Synchronous Call
+```java
+EVTClient client = new EVTClient("APP_API_KEY");
+try {
+    User user = client.auth().logoutUser("USER_API_KEY").execute();
+} catch(APIException e) {
+
+}
+
+```
+
 ### Scanning
 
 #### Using the SDK's built-in Scanning Camera.

@@ -3,7 +3,6 @@ package com.evrythng.android.sdk;
 import com.evrythng.android.sdk.model.IntentResult;
 import com.evrythng.android.sdk.wrapper.client.EVTApiClient;
 import com.evrythng.android.sdk.wrapper.client.service.scan.ScanMethod;
-import com.evrythng.android.sdk.wrapper.client.service.scan.ScanService;
 import com.evrythng.android.sdk.wrapper.core.config.ApiConfiguration;
 
 import junit.framework.Assert;
