@@ -36,7 +36,7 @@ dependencies {
 }
 ```
 
-Include this line: ``` compile 'com.evrythng.android.sdk:library:0.0.3' ```
+Include this line: ``` compile 'com.evrythng.android.sdk:library:0.0.4' ```
 
 Step 3: In your AndroidManifest.xml
 
@@ -48,10 +48,10 @@ Include this two permissions:
 
 # How to:
 
-#### Create instance of EVTClient
+#### Create instance of EVTApiClient
 
 ```java
-EVTClient client = new EvtClient("APP_API_KEY");
+EVTApiClient client = new EVTApiClient("APP_API_KEY");
 ```
 
 ### Authentication
@@ -59,7 +59,7 @@ EVTClient client = new EvtClient("APP_API_KEY");
 Asynchronous Call
 ```java
 /** Asynchronous Call */
-EVTClient client = new EVTClient("APP_API_KEY");
+EVTApiClient client = new EVTApiClient("APP_API_KEY");
 client.auth().createAnonymousUser().execute(new ServiceCallback<User>() {
 
     @Override public void onResponse(User user) {
@@ -74,7 +74,7 @@ client.auth().createAnonymousUser().execute(new ServiceCallback<User>() {
 Synchronous Call
 ```java
  /** Note: Don't forget to call this on a non-ui blocking thread. */
- EVTClient client = new EVTClient("APP_API_KEY");
+ EVTApiClient client = new EVTApiClient("APP_API_KEY");
  try {
         User user = client.auth().createAnonymousUser().execute();
  }
@@ -91,7 +91,7 @@ user.setPassword("yourpassword");
 user.setFirstName("firstName");
 user.setLastName("lastName");
 
-EVTClient client = new EVTClient("APP_API_KEY");
+EVTApiClient client = new EVTApiClient("APP_API_KEY");
 client.auth().createUser(user).execute(ServiceCallback<User>() {
 
     @Override
@@ -108,7 +108,7 @@ client.auth().createUser(user).execute(ServiceCallback<User>() {
 Synchronous call
 ```java
 
-EVTClient client = new EVTClient("APP_API_KEY");
+EVTApiClient client = new EVTApiClient("APP_API_KEY");
 try {
 
     User user = new User();
@@ -131,8 +131,8 @@ catch(APIException e) {
 Asynchronous Call
 
 ```java
-EVTClient client = new EVTClient("APP_API_KEY");
-evtClient.auth().validateUser(user.getUserId(), user.getActivationCode()).execute(ServiceCallback<User>() {
+EVTApiClient client = new EVTApiClient("APP_API_KEY");
+client.auth().validateUser(user.getUserId(), user.getActivationCode()).execute(ServiceCallback<User>() {
     @Override
     public void onResponse(User user) {
         //code to handle activation
@@ -146,11 +146,11 @@ evtClient.auth().validateUser(user.getUserId(), user.getActivationCode()).execut
 ```
 Synchronous Call
 ```java
-EVTClient client = new EVTClient("APP_API_KEY");
+EVTApiClient client = new EVTApiClient("APP_API_KEY");
 // (Asynchronous Call) ** assumed that you already had the
 // user object returned by the EVT Server. */
 try {
-    User user = evtClient.auth().validateUser(user.getUserId(), user.getActivationCode()).execute();
+    User user = client.auth().validateUser(user.getUserId(), user.getActivationCode()).execute();
 }
 catch(APIException e) {
 
@@ -160,7 +160,7 @@ catch(APIException e) {
 ##### Login user
 Asynchronous Call
 ```java
-EVTClient client = new EVTClient("APP_API_KEY");
+EVTApiClient client = new EVTApiClient("APP_API_KEY");
 client.auth().useCredentials("email", "password").execute(ServiceCallback<User>() {
 
     @Override
@@ -178,7 +178,7 @@ client.auth().useCredentials("email", "password").execute(ServiceCallback<User>(
 
 Synchronous Call
 ```java
-EVTClient client = new EVTClient("APP_API_KEY");
+EVTApiClient client = new EVTApiClient("APP_API_KEY");
 try {
     User user = client.auth().useCredentials("email", "password").execute();
 } catch(APIException e) {
@@ -189,7 +189,7 @@ try {
 
 Asynchronous Call
 ```java
-EVTClient client = new EVTClient("APP_API_KEY");
+EVTApiClient client = new EVTApiClient("APP_API_KEY");
 client.auth().logoutUser("USER_API_KEY").execute(ServiceCallback<User>() {
 
     @Override
@@ -207,7 +207,7 @@ client.auth().logoutUser("USER_API_KEY").execute(ServiceCallback<User>() {
 
 Synchronous Call
 ```java
-EVTClient client = new EVTClient("APP_API_KEY");
+EVTApiClient client = new EVTApiClient("APP_API_KEY");
 try {
     User user = client.auth().logoutUser("USER_API_KEY").execute();
 } catch(APIException e) {
@@ -221,7 +221,7 @@ try {
 #### Using the SDK's built-in Scanning Camera.
 
 ```java
-EVTClient client = new EVTClient("API_KEY");
+EVTApiClient client = new EVTApiClient("API_KEY");
 client.scan().launchScannerCamera(<activity instance>);
 
 /** Always include this to your activity where the launchScannerCamera()
@@ -234,11 +234,10 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
 
     //code that parses the response from the Scanner Camera
-    IntentResult intentResult = evtClient.scan()
+    IntentResult intentResult = client.scan()
         .parseScannerResponse(requestCode, resultCode, data);
 
     if(intentResult != null) {
-       EVTClient client = new EVTClient("API_KEY");
         client.scan().useIntentResult(intentResult).execute(mServiceCallback);
     }
 }
@@ -248,7 +247,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 Asynchronous Call
 ```java
-EVTClient client = new EVTClient("API_KEY");
+EVTApiClient client = new EVTApiClient("API_KEY");
 client.scan().setMethod(ScanMethod.EAN_13).useIdentify("2323232132").execute(new ServiceCallback<List<ScanResponse>>() {
     @Override
     public void onResponse(List<ScanResponse> response) {
@@ -264,7 +263,7 @@ client.scan().setMethod(ScanMethod.EAN_13).useIdentify("2323232132").execute(new
 Synchronous Call
 
 ```java
-EVTClient client = new EVTClient("API_KEY");
+EVTApiClient client = new EVTApiClient("API_KEY");
 try {
     List<ScanResponse> response = client.scan().setMethod(ScanMethod.EAN_13).useIdentify("32332323").execute();
 }
@@ -277,7 +276,7 @@ catch(APIException e) {
 
 Asynchronous Call
 ```java
-EVTClient client = new EVTClient("API_KEY");
+EVTApiClient client = new EVTApiClient("API_KEY");
 client.scan().setMethod(ScanMethod.EAN_13).usePhoto("imagePath").execute(new ServiceCallback<List<ScanResponse>>() {
     @Override
     public void onResponse(List<ScanResponse> response) {
@@ -293,7 +292,7 @@ client.scan().setMethod(ScanMethod.EAN_13).usePhoto("imagePath").execute(new Ser
 Synchronous Call
 
 ```java
-EVTClient client = new EVTClient("API_KEY");
+EVTApiClient client = new EVTApiClient("API_KEY");
 try {
     List<ScanResponse> response = client.scan().setMethod(ScanMethod.EAN_13).usePhoto("imagePath").execute();
 }
