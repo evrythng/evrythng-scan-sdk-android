@@ -24,6 +24,7 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.List;
@@ -100,8 +101,19 @@ public class ScanService extends BaseAPIService {
      * @param path - the path of the image.
      * Note: be sure to check if the path is valid.
      */
-    public ScanService usePhoto(@NonNull Context context,@NonNull String path) {
-        return usePhoto(context, BitmapFactory.decodeFile(path));
+    public ScanService usePhoto(@NonNull Context context, @NonNull String path) throws IllegalStateException {
+
+        if(path == null || path.trim().isEmpty())
+            throw new IllegalStateException("Path should not be null or empty");
+
+        File file = new File(path);
+
+        if(!file.exists())
+            throw new IllegalStateException(String.format("File in path: %s not found", path));
+        
+        Bitmap bitmap = BitmapFactory.decodeFile(path);
+        return usePhoto(context, bitmap);
+
     }
 
     /**
@@ -110,22 +122,27 @@ public class ScanService extends BaseAPIService {
      * @param bitmap - bitmap object containing the photo to check for barcode.
      * @return
      */
-    public ScanService usePhoto(@NonNull Context context, @NonNull Bitmap bitmap) {
+    public ScanService usePhoto(@NonNull Context context, @NonNull Bitmap bitmap) throws IllegalStateException {
+
+        if(context == null)
+            throw new IllegalStateException("Context should not be null");
+
+        if(bitmap == null)
+            throw new IllegalStateException("Bitmap should not be null");
+
         BarcodeDetector detector =
                 new BarcodeDetector.Builder(context)
-                        .setBarcodeFormats(Barcode.DATA_MATRIX | Barcode.QR_CODE)
                         .build();
         if(!detector.isOperational()){
             throw new IllegalStateException("Could not setup detector");
         }
 
-        if(bitmap != null) {
-            Frame frame = new Frame.Builder().setBitmap(bitmap).build();
-            SparseArray<Barcode> barcodes = detector.detect(frame);
-            if(barcodes.size() > 0) {
-                barCode = barcodes.get(0).rawValue;
-                scanMethod = new ScanMethod[] { getScanMethod(barcodes.get(0).format) };
-            }
+        Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+        SparseArray<Barcode> barcodes = detector.detect(frame);
+        if(barcodes != null && barcodes.size() > 0) {
+            Barcode barcode = barcodes.get(0, new Barcode());
+            barCode = barcode.rawValue;
+            scanMethod = new ScanMethod[] { getScanMethod(barcode.format) };
         }
         return this;
     }

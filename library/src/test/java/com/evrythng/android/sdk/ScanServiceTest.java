@@ -1,5 +1,9 @@
 package com.evrythng.android.sdk;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.test.mock.MockContext;
+
 import com.evrythng.android.sdk.model.IntentResult;
 import com.evrythng.android.sdk.wrapper.client.EVTApiClient;
 import com.evrythng.android.sdk.wrapper.client.service.scan.ScanMethod;
@@ -9,7 +13,10 @@ import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.mockito.Mock;
 
 import java.io.IOException;
 
@@ -24,6 +31,12 @@ public class ScanServiceTest {
 
     private EVTApiClient client;
     private MockWebServer mockWebServer;
+
+    @Mock
+    Context mockContext = new MockContext();
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void setup() throws IOException {
@@ -166,4 +179,45 @@ public class ScanServiceTest {
                 request.getPath());
     }
 
+    @Test
+    public void ScanService_UsePhoto_Path_isNull() throws Exception {
+        thrown.expect(IllegalStateException.class);
+        thrown.expectMessage("Path should not be null or empty");
+        String path = null;
+        client.scan().usePhoto(mockContext, path).execute();
+    }
+
+    @Test
+    public void ScanService_UsePhoto_Path_isEmpty() throws Exception {
+        thrown.expect(IllegalStateException.class);
+        thrown.expectMessage("Path should not be null or empty");
+        String path = " ";
+        client.scan().usePhoto(mockContext, path).execute();
+    }
+
+    @Test
+    public void ScanService_UsePhoto_Path_isInvalid() throws Exception {
+        thrown.expect(IllegalStateException.class);
+        thrown.expectMessage("File in path: asds not found");
+        Context context = null;
+        String path = "asds";
+        client.scan().usePhoto(context, path).execute();
+    }
+
+    @Test
+    public void ScanService_UsePhoto_Context_isNull() throws Exception {
+        thrown.expect(IllegalStateException.class);
+        thrown.expectMessage("Context should not be null");
+        Context context = null;
+        Bitmap bitmap = null;
+        client.scan().usePhoto(context, bitmap).execute();
+    }
+
+    @Test
+    public void ScanService_UsePhoto_Bitmap_isNull() throws Exception {
+        thrown.expect(IllegalStateException.class);
+        thrown.expectMessage("Bitmap should not be null");
+        Bitmap bitmap = null;
+        client.scan().usePhoto(mockContext, bitmap).execute();
+    }
 }

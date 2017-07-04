@@ -70,16 +70,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnScan.setOnClickListener(this);
         btnLogout.setOnClickListener(this);
 
-        evtClient = new EVTApiClient(tvUserKey.getText().toString());
+        evtClient = new EVTApiClient(getString(R.string.api_key));
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_scan)
+        if (v.getId() == R.id.btn_scan) {
             evtClient.scan().launchScannerCamera(this);
-        else if (v.getId() == R.id.btn_logout) {
+        } else if (v.getId() == R.id.btn_logout) {
             progressDialog = ProgressDialog.show(this, "Logging out", "Please wait...");
-            evtClient.auth().logoutUser().execute(mUserServiceCallback);
+            evtClient.auth().logoutUser(tvUserKey.getText().toString()).execute(mUserServiceCallback);
         }
     }
 
@@ -102,7 +102,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Gson gson = GsonModule.getInstance().getGson();
                 String responseString = gson.toJson(response.get(0), ScanResponse.class);
                 tvResults.setText("Result: " + responseString);
-
+            }
+            else {
+                tvResults.setText("Result: No data found");
             }
         }
 
