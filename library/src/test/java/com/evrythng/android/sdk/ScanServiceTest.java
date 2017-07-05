@@ -80,6 +80,33 @@ public class ScanServiceTest {
     }
 
     @Test
+    public void ScanService_Identity_Method_Set_isNull()throws Exception {
+
+        mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("[]"));
+
+        client.scan().useIdentify("sdsdsd").setMethod(null).execute();
+
+        RecordedRequest request = mockWebServer.takeRequest();
+
+        Assert.assertEquals("GET", request.getMethod());
+        Assert.assertEquals(
+                "/scan/identifications?filter=value%3Dsdsdsd", request.getPath());
+    }
+
+    @Test
+    public void ScanService_Identity_Method_All_isNull()throws Exception {
+
+        mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("[]"));
+
+        client.scan().useIdentify("sdsdsd").setMethod(ScanMethod.ALL).execute();
+
+        RecordedRequest request = mockWebServer.takeRequest();
+
+        Assert.assertEquals("GET", request.getMethod());
+        Assert.assertEquals("/scan/identifications?filter=value%3Dsdsdsd", request.getPath());
+    }
+
+    @Test
     public void ScanService_Identity_Valid() throws Exception {
 
         mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("[]"));

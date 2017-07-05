@@ -130,9 +130,21 @@ public class ScanService extends BaseAPIService {
         if(bitmap == null)
             throw new IllegalStateException("Bitmap should not be null");
 
-        BarcodeDetector detector =
-                new BarcodeDetector.Builder(context)
-                        .build();
+        BarcodeDetector.Builder builder =
+                new BarcodeDetector.Builder(context);
+
+        //extract the method set
+        int format = 0;
+        if(scanMethod != null && scanMethod.length > 0) {
+            for(ScanMethod method : scanMethod) {
+                if(method != null) {
+                    format |= method.getFormat();
+                }
+            }
+        }
+
+        BarcodeDetector detector = builder.setBarcodeFormats(format).build();
+
         if(!detector.isOperational()){
             throw new IllegalStateException("Could not setup detector");
         }
@@ -194,8 +206,11 @@ public class ScanService extends BaseAPIService {
             String methods = "";
             String types = "";
             for(ScanMethod method : scanMethod) {
-                if(!methods.contains(method.geMethod()))
-                    methods += "," + method.geMethod();
+                //additional handling incase a null method is passed to the scanMethod array
+                if(method == null || method == ScanMethod.ALL) continue;
+
+                if(!methods.contains(method.getMethod()))
+                    methods += "," + method.getMethod();
                 if(!methods.contains(method.getType()))
                     types += "," + method.getType();
             }
@@ -240,7 +255,7 @@ public class ScanService extends BaseAPIService {
         for (ScanMethod method : ScanMethod.values())
             if (method.getFormat() == format)
                 return method;
-        return null;
+        return ScanMethod.ALL;
     }
 
 }

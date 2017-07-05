@@ -9,6 +9,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 
 public enum ScanMethod {
 
+    ALL("", "", Barcode.ALL_FORMATS),
     EAN_13("1d", "ean_13", Barcode.EAN_13),
     EAN_8("1d", "ean_8", Barcode.EAN_8),
     UPC_A("1d", "upc_a", Barcode.UPC_A),
@@ -31,7 +32,7 @@ public enum ScanMethod {
         this.format = format;
     }
 
-    public String geMethod() {
+    public String getMethod() {
         return scanMethod;
     }
 
