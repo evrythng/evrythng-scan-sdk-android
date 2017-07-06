@@ -142,8 +142,11 @@ public class ScanService extends BaseAPIService {
                 }
             }
         }
-
-        BarcodeDetector detector = builder.setBarcodeFormats(format).build();
+        BarcodeDetector detector;
+        if(format == 0)
+            detector = builder.build();
+        else
+            detector = builder.setBarcodeFormats(format).build();
 
         if(!detector.isOperational()){
             throw new IllegalStateException("Could not setup detector");
@@ -152,9 +155,11 @@ public class ScanService extends BaseAPIService {
         Frame frame = new Frame.Builder().setBitmap(bitmap).build();
         SparseArray<Barcode> barcodes = detector.detect(frame);
         if(barcodes != null && barcodes.size() > 0) {
-            Barcode barcode = barcodes.get(0, new Barcode());
-            barCode = barcode.rawValue;
-            scanMethod = new ScanMethod[] { getScanMethod(barcode.format) };
+            Barcode barcode = barcodes.valueAt(0);
+            if(barcode != null) {
+                barCode = barcode.rawValue;
+                scanMethod = new ScanMethod[]{getScanMethod(barcode.format)};
+            }
         }
         return this;
     }
