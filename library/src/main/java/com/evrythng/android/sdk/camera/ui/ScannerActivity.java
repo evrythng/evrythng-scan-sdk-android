@@ -39,6 +39,7 @@ public class ScannerActivity extends AppCompatActivity {
     private ScanManager scanManager;
     private ScannerPreviewLayout mContainer;
     private int boxSize;
+    private int pixelBoxSize = 250;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class ScannerActivity extends AppCompatActivity {
         boxSize = getResources().getDimensionPixelSize(R.dimen.box_size);
 
         scanManager = new ScanManager(this, mPreview);
-        scanManager.setScanBox(boxSize , boxSize);
+        scanManager.setScanBox(pixelBoxSize , pixelBoxSize);
         //Check which callback to set based on the scanMode set on the scanner
         scanManager.setTrackerCallback(mBarcodeTrackerCallback);
 
@@ -66,21 +67,26 @@ public class ScannerActivity extends AppCompatActivity {
     }
 
     private void createCameraSource() {
+
         mContainer.post(new Runnable() {
             @Override
             public void run() {
                 int height = mContainer.getHeight();
                 int width = mContainer.getWidth();
-                scanManager.createCameraSource(height, width);
+                scanManager.createCameraSource(width, height);
                 scanManager.startCameraSource();
                 //after starting the preview add the crop mark
                 //determine the preview size first
-                Size size = scanManager.getPreviewSize();
-                if(size != null) {
-                    mContainer.setPreviewSize(size.getWidth(), size.getHeight());
-                    mContainer.addGridMark(boxSize);
-                    mContainer.requestLayout();
-                }
+                mPreview.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        int height = mPreview.getSurfaceHeight();
+                        int width = mPreview.getSurfaceWidth();
+                        mContainer.setPreviewSize(width, height);
+                        mContainer.addGridMark(boxSize);
+                        mContainer.requestLayout();
+                    }
+                });
             }
         });
     }
@@ -124,8 +130,7 @@ public class ScannerActivity extends AppCompatActivity {
         if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Camera permission granted - initialize the camera source");
             // we have permission, so create the camerasource
-            finish();
-            startActivity(getIntent());
+            createCameraSource();
             return;
         }
 
@@ -148,13 +153,13 @@ public class ScannerActivity extends AppCompatActivity {
     private TrackerCallback<Barcode> mBarcodeTrackerCallback = new TrackerCallback<Barcode>() {
         @Override
         public void onNewItem(int id, Barcode item) {
-            Log.i(TAG, String.format("new item: %d - %s", id, item.displayValue));
-            scanManager.sendResult(item.displayValue, item.format);
+            Log.i(TAG, String.format("new item: %d - %s", id, item.rawValue));
+            scanManager.sendResult(item.rawValue, item.format);
         }
 
         @Override
         public void onUpdate(Detector.Detections<Barcode> detectionsResults, Barcode item) {
-            Log.i(TAG, String.format("update: %s", item.displayValue));
+            Log.i(TAG, String.format("update: %s", item.rawValue));
         }
 
         @Override

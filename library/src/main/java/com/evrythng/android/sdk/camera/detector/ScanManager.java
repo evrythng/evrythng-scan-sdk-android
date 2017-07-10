@@ -94,7 +94,7 @@ public class ScanManager {
      *              by the device.
      * @throws IllegalStateException
      */
-    public void createCameraSource(int height, int width) throws IllegalStateException {
+    public void createCameraSource(int width, int height) throws IllegalStateException {
 
         // check that the device has play services available.
         int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(

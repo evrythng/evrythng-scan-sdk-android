@@ -37,6 +37,7 @@ public class ScannerPreviewLayout extends FrameLayout {
             height = width;
             width = temp;
         }
+
         int newHeight = height > 0 ? height : getHeight();
         int newWidth = width > 0 ? width : getWidth();
         int boxLeft = (newWidth/2) - boxSize/2;

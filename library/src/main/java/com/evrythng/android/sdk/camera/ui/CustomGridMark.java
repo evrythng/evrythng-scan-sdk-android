@@ -10,7 +10,7 @@ import com.evrythng.android.sdk.R;
  * Custom Grid mark for the crop guide
  */
 
-public class CustomGridMark extends ImageView {
+public class CustomGridMark extends android.support.v7.widget.AppCompatImageView {
     private int left, right, top, bottom;
 
     public CustomGridMark(Context context) {

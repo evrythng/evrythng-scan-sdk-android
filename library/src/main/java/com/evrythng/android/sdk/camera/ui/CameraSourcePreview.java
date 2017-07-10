@@ -22,6 +22,7 @@ public class CameraSourcePreview extends ViewGroup {
     private boolean mStartRequested;
     private boolean mSurfaceAvailable;
     private CameraSource mCameraSource;
+    private int surfaceHeight, surfaceWidth;
 
 //    private GraphicOverlay mOverlay;
 
@@ -78,6 +79,9 @@ public class CameraSourcePreview extends ViewGroup {
         @Override
         public void surfaceCreated(SurfaceHolder surface) {
             mSurfaceAvailable = true;
+            surfaceHeight = mSurfaceView.getHeight();
+            surfaceWidth = mSurfaceView.getWidth();
+            Log.e(TAG, String.format("Surface view: %s - %s", surfaceHeight, surfaceWidth));
             try {
                 startIfReady();
             } catch (IOException e) {
@@ -122,10 +126,10 @@ public class CameraSourcePreview extends ViewGroup {
         int childHeight = (int)(((float) layoutWidth / (float) width) * height);
 
         // If height is too tall using fit width, does fit height instead.
-//        if (childHeight > layoutHeight) {
-//            childHeight = layoutHeight;
-//            childWidth = (int)(((float) layoutHeight / (float) height) * width);
-//        }
+        if (childHeight > layoutHeight) {
+            childHeight = layoutHeight;
+            childWidth = (int)(((float) layoutHeight / (float) height) * width);
+        }
 
         for (int i = 0; i < getChildCount(); ++i) {
             getChildAt(i).layout(0, 0, childWidth, childHeight);
@@ -149,5 +153,13 @@ public class CameraSourcePreview extends ViewGroup {
 
         Log.d(TAG, "isPortraitMode returning false by default");
         return false;
+    }
+
+    public int getSurfaceHeight() {
+        return surfaceHeight;
+    }
+
+    public int getSurfaceWidth() {
+        return surfaceWidth;
     }
 }
