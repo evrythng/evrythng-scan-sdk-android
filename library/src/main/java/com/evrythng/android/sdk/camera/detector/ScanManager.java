@@ -138,7 +138,7 @@ public class ScanManager {
                 .setRequestedFps(15.0f)
                 .setAutoFocusEnabled(true);
         if(height > 0 && width > 0) //set preview size only when height and width is not zero
-            cameraBuilder = cameraBuilder.setRequestedPreviewSize(height, width);
+            cameraBuilder = cameraBuilder.setRequestedPreviewSize(width, height);
         cameraSource = cameraBuilder.build();
     }
 
