@@ -225,7 +225,7 @@ public class ScanService extends BaseAPIService {
                 filter += (!filter.isEmpty() ? "&type=" : "type=") + types.substring(1);
         }
         if(barCode != null)
-            filter += String.format(filter.isEmpty() ? "value=%s" : "&value=%s", barCode);
+            filter += String.format(filter.isEmpty() ? "type=%s&value=%s" : "&value=%s", barCode, ScanMethod.ALL.getType());
         return filter;
     }
 
