@@ -161,7 +161,7 @@ catch(APIException e) {
 Asynchronous Call
 ```java
 EVTApiClient client = new EVTApiClient("APP_API_KEY");
-client.auth().useCredentials("email", "password").execute(ServiceCallback<User>() {
+client.auth().logInUser("email", "password").execute(ServiceCallback<User>() {
 
     @Override
     public void onResponse(User user) {
@@ -180,7 +180,7 @@ Synchronous Call
 ```java
 EVTApiClient client = new EVTApiClient("APP_API_KEY");
 try {
-    User user = client.auth().useCredentials("email", "password").execute();
+    User user = client.auth().logInUser("email", "password").execute();
 } catch(APIException e) {
 
 }
@@ -243,12 +243,12 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }
 ```
 
-##### Using the indentify method. Identify manually if the scanned value is a thng/product.
+##### Using the setValue method. Identify manually if the scanned value is a thng/product.
 
 Asynchronous Call
 ```java
 EVTApiClient client = new EVTApiClient("API_KEY");
-client.scan().setMethod(ScanMethod.EAN_13).useIdentify("2323232132").execute(new ServiceCallback<List<ScanResponse>>() {
+client.scan().setMethod(ScanMethod.EAN_13).setValue("2323232132").execute(new ServiceCallback<List<ScanResponse>>() {
     @Override
     public void onResponse(List<ScanResponse> response) {
 
@@ -265,7 +265,7 @@ Synchronous Call
 ```java
 EVTApiClient client = new EVTApiClient("API_KEY");
 try {
-    List<ScanResponse> response = client.scan().setMethod(ScanMethod.EAN_13).useIdentify("32332323").execute();
+    List<ScanResponse> response = client.scan().setMethod(ScanMethod.EAN_13).setValue("32332323").execute();
 }
 catch(APIException e) {
 

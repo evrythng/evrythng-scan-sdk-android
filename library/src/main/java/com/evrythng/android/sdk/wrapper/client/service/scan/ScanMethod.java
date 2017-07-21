@@ -9,7 +9,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 
 public enum ScanMethod {
 
-    ALL("", "", Barcode.ALL_FORMATS),
+    ALL("", "ean_13,ean_8,ean_8,upc_a,upc_e,code_39,code_93,code_128,itf,codabar,qr_code,dm", Barcode.ALL_FORMATS),
     EAN_13("1d", "ean_13", Barcode.EAN_13),
     EAN_8("1d", "ean_8", Barcode.EAN_8),
     UPC_A("1d", "upc_a", Barcode.UPC_A),

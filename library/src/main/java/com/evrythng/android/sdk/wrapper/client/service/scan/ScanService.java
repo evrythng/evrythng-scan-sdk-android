@@ -41,7 +41,7 @@ public class ScanService extends BaseAPIService {
     private final ServiceGenerator manager;
     private String filter;
     private ScanMethod[] scanMethod;
-    private String barCode;
+    private String value;
 
     public ScanService(EVTApiClient client) {
         super(client);
@@ -53,7 +53,7 @@ public class ScanService extends BaseAPIService {
      * Not specifying any would try to detect all supported formats.
      *
      * Using this together with the Identification API will specify the format of the given
-     * value. See useIndenfity() for more details.
+     * value. See useValue() for more details.
      *
      * @param method - scanning when you want to use.
      *
@@ -90,7 +90,7 @@ public class ScanService extends BaseAPIService {
             //do not add scan method if result's scan method is null
             if(result.getScanMethod() != null)
                 scanMethod = new ScanMethod[] { result.getScanMethod() };
-            barCode = result.getValue();
+            value = result.getValue();
         }
         return this;
     }
@@ -157,7 +157,7 @@ public class ScanService extends BaseAPIService {
         if(barcodes != null && barcodes.size() > 0) {
             Barcode barcode = barcodes.valueAt(0);
             if(barcode != null) {
-                barCode = barcode.rawValue;
+                value = barcode.rawValue;
                 scanMethod = new ScanMethod[]{getScanMethod(barcode.format)};
             }
         }
@@ -166,10 +166,10 @@ public class ScanService extends BaseAPIService {
 
     /**
      * Used to identify if the input is a valid barcode
-     * @param barCode - barcode to check in the EVT API.
+     * @param value - barcode to check in the EVT API.
      */
-    public ScanService useIdentify(String barCode) {
-        this.barCode = barCode;
+    public ScanService useValue(String value) {
+        this.value = value;
         return this;
     }
 
@@ -224,8 +224,8 @@ public class ScanService extends BaseAPIService {
             if(!types.isEmpty())
                 filter += (!filter.isEmpty() ? "&type=" : "type=") + types.substring(1);
         }
-        if(barCode != null)
-            filter += String.format(filter.isEmpty() ? "value=%s" : "&value=%s", barCode);
+        if(value != null)
+            filter += String.format(filter.isEmpty() ? "type=" + ScanMethod.ALL.getType() + "&value=%s" : "&value=%s", value);
         return filter;
     }
 
