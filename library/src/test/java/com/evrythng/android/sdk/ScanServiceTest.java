@@ -56,7 +56,7 @@ public class ScanServiceTest {
 
         mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("[]"));
 
-        client.scan().setMethod(ScanMethod.EAN_13).useIdentify(null).execute();
+        client.scan().setMethod(ScanMethod.EAN_13).useValue(null).execute();
 
         RecordedRequest request = mockWebServer.takeRequest();
 
@@ -70,13 +70,13 @@ public class ScanServiceTest {
 
         mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("[]"));
 
-        client.scan().useIdentify("sdsdsd").execute();
+        client.scan().useValue("sdsdsd").execute();
 
         RecordedRequest request = mockWebServer.takeRequest();
 
         Assert.assertEquals("GET", request.getMethod());
-        Assert.assertEquals(
-                "/scan/identifications?filter=value%3Dsdsdsd", request.getPath());
+        String actualUrl = ("/scan/identifications?filter=type%3D_%26value%3Dsdsdsd").replace("_", ScanMethod.ALL.getType());
+        Assert.assertEquals(actualUrl, request.getPath());
     }
 
     @Test
@@ -84,26 +84,27 @@ public class ScanServiceTest {
 
         mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("[]"));
 
-        client.scan().useIdentify("sdsdsd").setMethod(null).execute();
+        client.scan().useValue("sdsdsd").setMethod(null).execute();
 
         RecordedRequest request = mockWebServer.takeRequest();
 
         Assert.assertEquals("GET", request.getMethod());
-        Assert.assertEquals(
-                "/scan/identifications?filter=value%3Dsdsdsd", request.getPath());
+        String actualUrl = ("/scan/identifications?filter=type%3D_%26value%3Dsdsdsd").replace("_", ScanMethod.ALL.getType());
+        Assert.assertEquals(actualUrl, request.getPath());
     }
 
     @Test
-    public void ScanService_Identity_Method_All_isNull()throws Exception {
+    public void ScanService_Identity_Method_All()throws Exception {
 
         mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("[]"));
 
-        client.scan().useIdentify("sdsdsd").setMethod(ScanMethod.ALL).execute();
+        client.scan().useValue("sdsdsd").execute();
 
         RecordedRequest request = mockWebServer.takeRequest();
 
         Assert.assertEquals("GET", request.getMethod());
-        Assert.assertEquals("/scan/identifications?filter=value%3Dsdsdsd", request.getPath());
+        String actualUrl = ("/scan/identifications?filter=type%3D_%26value%3Dsdsdsd").replace("_", ScanMethod.ALL.getType());
+        Assert.assertEquals(actualUrl, request.getPath());
     }
 
     @Test
@@ -111,7 +112,7 @@ public class ScanServiceTest {
 
         mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("[]"));
 
-        client.scan().setMethod(ScanMethod.EAN_13).useIdentify("sdsdsd").execute();
+        client.scan().setMethod(ScanMethod.EAN_13).useValue("sdsdsd").execute();
 
         RecordedRequest request = mockWebServer.takeRequest();
 
@@ -172,7 +173,7 @@ public class ScanServiceTest {
     public void ScanService_IntentResult_Method_isNull() throws Exception {
 
         IntentResult result = new IntentResult();
-        result.setValue("asdw");
+        result.setValue("sdsdsd");
         result.setScanMethod(null);
 
         mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("[]"));
@@ -182,9 +183,8 @@ public class ScanServiceTest {
         RecordedRequest request = mockWebServer.takeRequest();
 
         Assert.assertEquals("GET", request.getMethod());
-        Assert.assertEquals(
-                "/scan/identifications?filter=value%3Dasdw",
-                request.getPath());
+        String actualUrl = ("/scan/identifications?filter=type%3D_%26value%3Dsdsdsd").replace("_", ScanMethod.ALL.getType());
+        Assert.assertEquals(actualUrl, request.getPath());
     }
 
     @Test

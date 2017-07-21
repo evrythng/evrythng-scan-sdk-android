@@ -21,10 +21,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
 
+    private boolean debugMode = false;
     private Retrofit retrofit;
 
     public ServiceGenerator(final BaseAPIService baseService) {
         checkService(baseService);
+
+        setDebugMode(baseService.getClient().isDebug());
 
         Interceptor interceptor = new Interceptor() {
             @Override
@@ -74,7 +77,8 @@ public class ServiceGenerator {
             httpClient.addInterceptor(interceptor);
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY); // set your desired log level
+
+        logging.setLevel(isDebugMode() ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE); // set your desired log level
         httpClient.addInterceptor(logging);
 
         OkHttpClient client = httpClient.build();
@@ -100,5 +104,14 @@ public class ServiceGenerator {
 
     public ApiService createService() {
         return retrofit.create(ApiService.class);
+    }
+
+
+    public boolean isDebugMode() {
+        return debugMode;
+    }
+
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
     }
 }

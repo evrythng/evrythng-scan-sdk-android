@@ -15,6 +15,7 @@ import com.evrythng.android.sdk.wrapper.client.service.scan.ScanService;
 public class EVTApiClient {
 
     private final ApiConfiguration config;
+    private boolean debug = false;
 
     public EVTApiClient(@NonNull String apiKey) {
         this(new ApiConfiguration(apiKey));
@@ -57,5 +58,13 @@ public class EVTApiClient {
      */
     public AuthService auth() {
         return new AuthService(this);
+    }
+
+    public boolean isDebug() {
+        return debug;
+    }
+
+    public void setDebug(boolean debug) {
+        this.debug = debug;
     }
 }

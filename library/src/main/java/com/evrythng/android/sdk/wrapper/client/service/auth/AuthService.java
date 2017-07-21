@@ -78,7 +78,7 @@ public class AuthService extends BaseAPIService {
      * @param email - user's email
      * @param password - user's password
      */
-    public AuthService useCredentials(String email , String password)  {
+    public AuthService logInUser(String email , String password)  {
         action = LOGIN_USER;
         this.email = email;
         this.password = password;

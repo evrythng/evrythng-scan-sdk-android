@@ -64,7 +64,7 @@ public class AuthServiceTest {
 
         mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("{}"));
 
-        client.auth().useCredentials("Email", "Password").execute();
+        client.auth().loginUser("Email", "Password").execute();
 
         RecordedRequest request = this.mockWebServer.takeRequest();
 

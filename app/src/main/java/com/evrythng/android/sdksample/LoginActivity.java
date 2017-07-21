@@ -44,7 +44,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
         client = new EVTApiClient(getString(R.string.api_key));
-
         etEmail = (TextInputLayout) findViewById(R.id.et_email);
         etPassword = (TextInputLayout) findViewById(R.id.et_password);
         btnLogin = (Button) findViewById(R.id.btn_login);
@@ -85,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String email = etEmail.getEditText().getText().toString();
         String password = etPassword.getEditText().getText().toString();
         progressDialog = ProgressDialog.show(this, "Logging in to EVT", "Logging in as " + email);
-        client.auth().useCredentials(email, password).execute(mServiceCallback);
+        client.auth().logInUser(email, password).execute(mServiceCallback);
     }
 
     private ServiceCallback<User> mServiceCallback = new ServiceCallback<User>() {
