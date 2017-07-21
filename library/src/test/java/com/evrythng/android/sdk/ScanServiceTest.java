@@ -56,7 +56,7 @@ public class ScanServiceTest {
 
         mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("[]"));
 
-        client.scan().setMethod(ScanMethod.EAN_13).useValue(null).execute();
+        client.scan().setMethod(ScanMethod.EAN_13).setValue(null).execute();
 
         RecordedRequest request = mockWebServer.takeRequest();
 
@@ -70,7 +70,7 @@ public class ScanServiceTest {
 
         mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("[]"));
 
-        client.scan().useValue("sdsdsd").execute();
+        client.scan().setValue("sdsdsd").execute();
 
         RecordedRequest request = mockWebServer.takeRequest();
 
@@ -84,7 +84,7 @@ public class ScanServiceTest {
 
         mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("[]"));
 
-        client.scan().useValue("sdsdsd").setMethod(null).execute();
+        client.scan().setValue("sdsdsd").setMethod(null).execute();
 
         RecordedRequest request = mockWebServer.takeRequest();
 
@@ -98,7 +98,7 @@ public class ScanServiceTest {
 
         mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("[]"));
 
-        client.scan().useValue("sdsdsd").execute();
+        client.scan().setValue("sdsdsd").execute();
 
         RecordedRequest request = mockWebServer.takeRequest();
 
@@ -112,7 +112,7 @@ public class ScanServiceTest {
 
         mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("[]"));
 
-        client.scan().setMethod(ScanMethod.EAN_13).useValue("sdsdsd").execute();
+        client.scan().setMethod(ScanMethod.EAN_13).setValue("sdsdsd").execute();
 
         RecordedRequest request = mockWebServer.takeRequest();
 
