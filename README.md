@@ -1,6 +1,6 @@
 # Setting up EVT Android SDK to your own project.
 
- ### Gradle 
+Gradle
 
 Step 1: In your project's main directory look for the build.gradle file and copy this block of code below
 
@@ -36,7 +36,7 @@ dependencies {
 }
 ```
 
-Include this line: ``` compile 'com.evrythng.android.sdk:library:0.0.8' ```
+Include this line: ``` compile 'com.evrythng.android.sdk:library:0.0.9' ```
 
 Step 3: In your AndroidManifest.xml
 
@@ -301,3 +301,11 @@ catch(APIException e) {
 }
 ```
 
+##### Using the Sample App
+
+Incase you want to test the sample app. Go to the res folder in app directory first. Find the strings.xml file and
+look for the api_key and replace it with your application API KEY.
+
+```xml
+<string name="api_key">add your api here</string>
+```

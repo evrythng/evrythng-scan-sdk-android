@@ -53,7 +53,7 @@ public class ScanService extends BaseAPIService {
      * Not specifying any would try to detect all supported formats.
      *
      * Using this together with the Identification API will specify the format of the given
-     * value. See useValue() for more details.
+     * value. See setValue() for more details.
      *
      * @param method - scanning when you want to use.
      *
@@ -168,7 +168,7 @@ public class ScanService extends BaseAPIService {
      * Used to identify if the input is a valid barcode
      * @param value - barcode to check in the EVT API.
      */
-    public ScanService useValue(String value) {
+    public ScanService setValue(String value) {
         this.value = value;
         return this;
     }
