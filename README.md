@@ -36,7 +36,7 @@ dependencies {
 }
 ```
 
-Include this line: ``` compile 'com.evrythng.android.sdk:library:0.0.9' ```
+Include this line: ``` compile 'com.evrythng.android.sdk:library:0.0.10' ```
 
 Step 3: In your AndroidManifest.xml
 

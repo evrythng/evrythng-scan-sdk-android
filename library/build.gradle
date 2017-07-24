@@ -52,7 +52,7 @@ ext {
     siteUrl = 'https://evrythng.com/'
     gitUrl = 'https://github.com/evrythng/android-sdk.git'
 
-    libraryVersion = '0.0.9'
+    libraryVersion = '0.0.10'
 
     developerId = 'imfree-pelep'
     developerName = 'Ronald Phillip Cui'
