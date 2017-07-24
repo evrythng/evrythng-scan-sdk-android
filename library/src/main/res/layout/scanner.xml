@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.evrythng.android.sdk.camera.ui.ScannerPreviewLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.evrythng.android.sdk.camera.ui.ScannerPreviewLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
-    android:background="#000000"
+    android:background="@android:color/black"
     android:id="@+id/scanner_container">
 
     <com.evrythng.android.sdk.camera.ui.CameraSourcePreview
@@ -13,5 +13,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"/>
+
+    <me.grantland.widget.AutofitTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/overlay_text_size"
+        android:maxLines="1"
+        android:gravity="center"
+        android:text="@string/overlay_text"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/overlay_text_margin"
+        android:textColor="@color/overlay_text_color"
+        android:background="@color/overlay_text_bg_color"
+        android:padding="@dimen/overlay_text_padding"
+        app:minTextSize="@dimen/minimum_overlay_text_size" />
 
 </com.evrythng.android.sdk.camera.ui.ScannerPreviewLayout>

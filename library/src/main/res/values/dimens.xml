@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="box_size">200dp</dimen>
+    <dimen name="overlay_text_size">16sp</dimen>
+    <dimen name="minimum_overlay_text_size">12sp</dimen>
+    <dimen name="overlay_text_padding">4dp</dimen>
+    <dimen name="overlay_text_margin">40dp</dimen>
 </resources>

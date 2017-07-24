@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Library</string>
+    <string name="overlay_text">Please place the barcode within the frame</string>
 </resources>
