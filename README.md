@@ -1,6 +1,6 @@
 # evrythng-scan-sdk-android
 
-> **Beta**
+> **Beta**:
 > This is the initial stable beta release of this SDK for developers to use, and may be subject to change and improvement in the future until this beta label is removed. If you encounter any problems using it, please [get in touch](https://developers.evrythng.com/docs/support) let us know.
 
 This project contains an Android native SDK for embedding a barcode scanning experience inside a native Android application. It also includes functionality for authenticating as an EVRYTHNG application and creating/logging in and out of Application Users. 
